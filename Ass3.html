@@ -12,6 +12,7 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
 
+
 <!--- Mapbox GL API -->
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
 
@@ -86,10 +87,26 @@ a {
 }
 </style>
 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<!--- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ -->
+<!--- Mapbox GL API -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+
+<!--- Link to style.css stylesheet -->
+<link rel="stylesheet" type="text/css" href="style.css">
+
+
+
 </head>
 
 <body>
 <div id='map'></div>
+
+
+<div class="myChartContainer">
+	<canvas id="myChart" class="Chart"></canvas>
+</div>
 
 <!--- Legend for the map, containing different filters and information  -->
 <div id='legend' class='legend'>
@@ -99,19 +116,29 @@ a {
 
 <div class="menu">
 
-<!--- First filter: Toggle between weekday, weekend, or both -->	
-  <div class='row' id='filters'>
-  <h4>Stations</h4>
-    <input id='all' type='radio' name='toggle' value='all' checked='checked'>
+<!--- First filter: Toggle between weekday, weekend, or both -->
+ <div class='StationsRow' id='filters'>
+	<h4>Stations</h4>
+    <input id='all' type='checkbox' name='toggleStationsRow' value='all'  onclick="toggleStations()">
     <label for='all'>All</label>
-    <input id='weekday' type='radio' name='toggle' value='weekday'>
+	
+    <input id='weekday' type='checkbox' name='toggleStationsRow' value='weekday'  onclick="toggleStations()">
     <label for='weekday'>Tram Stops</label>
-    <input id='weekend' type='radio' name='toggle' value='weekend'>
+    <input id='weekend' type='checkbox' name='toggleStationsRow' value='weekend'  onclick="toggleStations()">
+
     <label for='weekend'>Train Stations</label>
     <br><br>
   </div>
 
-<!--- Second filter: Toggle between alcohol related, non-alcohol related, or both -->
+
+  <h4>Stations</h4>
+  <div id='filterStations'></div>
+
+
+  
+<!--- Second filter: Toggle between alcohol related, non-alcohol related, or both --
+
+
    <div class='row' id='filter2'>
   <h4>Routes</h4>
     <input id='all2' type='radio' name='ktoggle' value='all2' checked='checked'>
@@ -129,7 +156,9 @@ a {
   </div>
 
 <!--- Third filter: Toggle between whether young drivers are involved or not, or all accidents -->
-   <div class='row' id='filter3'>
+
+  <div class='row' id='filter3'>
+
   <h4>Activity</h4>
     <input id='all3' type='radio' name='btoggle' value='all3' checked='checked'>
     <label for='all3'>All</label>
@@ -162,125 +191,229 @@ var map = new mapboxgl.Map({
 
 
 map.on('load', function () {
-  map.addSource('tramroutes', {
-    type: 'vector',
-    url: 'mapbox://spatialg2.359uagp2'
-  });
-map.addLayer({
-  'id': 'tramroutes',
-  'type': 'line',
-  'source': 'tramroutes',
-  'layout': {
-  'visibility': 'visible'
-},
-'paint': {
-  'line-colour': 'green',
-  'line-width': '1',
-},
-'source-layer': 'SDM648670-3oocgl'
-});
+
+	map.addSource('tramroutes', {
+	  type: 'vector',
+	  url: 'mapbox://spatialg2.359uagp2'
+	});
+	map.addLayer({
+	  'id': 'tramroutes',
+	  'type': 'line',
+	  'source': 'tramroutes',
+	  'layout': {
+	  'visibility': 'visible'
+	},
+	'paint': {
+	  'line-colour': 'green',
+	  'line-width': '1',
+	},
+	'source-layer': 'SDM648670-3oocgl'
+	});
  
+	map.addSource('trainstops', {
+		type: 'vector',
+		url: 'mapbox://spatialg2.6a56qcyh'
+	});
+	
+	//add Layer for train stop 
+	map.addLayer({
+		'id': 'trainstops',
+		'type': 'circle',
+		'source': 'trainstops',
+		'layout': {
+			'visibility': 'visible'
+		},
+		'paint': {
+			'circle-radius': 8,
+			'circle-color': 'blue'
+		},
+		'source-layer': 'SDM645378-dyxplk'
+	});
 
 
-map.addSource('trainstops', {
-    type: 'vector',
-    url: 'mapbox://spatialg2.6a56qcyh'
-  });
+	map.addSource('tramstops', {
+		type: 'vector',
+		url: 'mapbox://spatialg2.ac5qftfo'
+	});
+	
+	//add Layer for tram stop point
+	map.addLayer({
+	'id': 'tramstops',
+	'type': 'circle',
+	'source': 'tramstops',
+	'layout': {
+		'visibility': 'visible'
+	},
+	'paint': {
+		'circle-radius': 5,
+		'circle-color': 'green'
+	},
+	'source-layer': 'tram_stops_new-3hknrp'
+	});
 
-map.addLayer({
-'id': 'trainstops',
-'type': 'circle',
-'source': 'trainstops',
-'layout': {
-'visibility': 'visible'
-},
-'paint': {
-'circle-radius': 8,
-'circle-color': 'blue'
-},
-'source-layer': 'SDM645378-dyxplk'
+
+	map.addSource('contours', {
+	  type: 'vector',
+	  url: 'mapbox://mapbox.mapbox-terrain-v2'
+	});
+
+	map.addLayer({
+	  'id': 'contours',
+	  'type': 'line',
+	  'source': 'contours',
+	  'source-layer': 'contour',
+	  'layout': {
+		  'visibility': 'visible',
+		  'line-join': 'round',
+		  'line-cap': 'round'
+	   },
+		'paint': {
+			'line-color': '#877b59',
+			'line-width': 1
+		}
+		
+	});
+
 });
 
 
-map.addSource('tramstops', {
-    type: 'vector',
-    url: 'mapbox://spatialg2.ac5qftfo'
-  });
-
-map.addLayer({
-'id': 'tramstops',
-'type': 'circle',
-'source': 'tramstops',
-'layout': {
-'visibility': 'visible'
-},
-'paint': {
-'circle-radius': 5,
-'circle-color': 'green'
-},
-'source-layer': 'tram_stops_new-3hknrp'
-});
 
 
 
+var toggleableLayerIds = [ 'trainstops', 'tramstops'];
+	for (var i = 0; i < toggleableLayerIds.length; i++) {
+		var id = toggleableLayerIds[i];
 
+		var link = document.createElement('a');
+		
+		 //link.setAttribute("type", "checkbox");
+         //link.setAttribute("name", "toggleStationsRow");
+        // link.setAttribute("value", "weekend");
+         //link.setAttribute("id","weekend");
+		 //link.checked = true;
+		 link.className = 'active';
 
+		 
+		
+		 link.textContent = id;
+		
+		 link.onclick= function (e) {
+					var clickedLayer = this.textContent;
+					e.preventDefault();
+					e.stopPropagation();
 
-map.addSource('contours', {
-  type: 'vector',
-  url: 'mapbox://mapbox.mapbox-terrain-v2'
-});
-map.addLayer({
-  'id': 'contours',
-  'type': 'line',
-  'source': 'contours',
-  'source-layer': 'contour',
-  'layout': {
-  'visibility': 'visible',
-  'line-join': 'round',
-  'line-cap': 'round'
-},
-'paint': {
-'line-color': '#877b59',
-'line-width': 1
+					var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+					if (visibility === 'visible') {
+					//if the button is not active set visibility to none
+						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+						this.className = '';
+						//link.setAttribute("checked","");
+						
+					} else {
+					//if the button is active set visibility to visible
+						this.className = 'active';
+						map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+						//link.setAttribute("checked","");
+						
+					}
+		};
+		
+		
+		
+		var layers = document.getElementById('filterStations');
+		layers.appendChild(link);
+		
 }
-});
-});
- 
-var toggleableLayerIds = [ 'contours', 'museums' ];
- 
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
-var link = document.createElement('a');
-link.href = '#';
-link.className = 'active';
-link.textContent = id;
- 
-link.onclick = function (e) {
-var clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
- 
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-}
-};
- 
-var layers = document.getElementById('menu');
-layers.appendChild(link);
-}
+				
+			/*	
 
-// Add map controls (pan and zoom)
-map.addControl(new mapboxgl.NavigationControl());
+	for (var i = 0; i < toggleableLayerIds.length; i++) {
+		var id = toggleableLayerIds[i];
 
+		var link = document.createElement('input');
+		 link.setAttribute("type", "radio");
+         link.setAttribute("name", "toggleStationsRow");
+         link.setAttribute("value", "weekend");
+         link.setAttribute("id","weekend");
+		 link.setAttribute("checked","checked");
+		 
 
+		link.onclick = function (e) {
+			var clickedLayer = this.textContent;
+			e.preventDefault();
+			e.stopPropagation();
+
+			var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+			if (visibility === 'visible') {
+			//if the button is not active set visibility to none
+				map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+				this.className = '';
+			} else {
+			//if the button is active set visibility to visible
+				this.className = 'active';
+				map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+			}
+		};
+
+		var layers = document.getElementById('filterStations');
+		layers.appendChild(link);
+	}
+	*/
+	let myChart = document.getElementById('myChart').getContext('2d');
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 28;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+  
+	let massPopChart1 = new Chart(myChart, {
+      type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+	  datasets: [{
+		label: '% timetable delivered',
+        data: [99.5, 99.3, 98.5, 99.0,98.2,99.4,99.5],
+		backgroundColor:[
+			'rgba(255, 99, 132, 0.6)',
+        ],
+        borderWidth:1,
+        borderColor:'#777',
+        hoverBorderWidth:3,
+        hoverBorderColor:'#000',
+		type: 'line'
+        }, 
+		{
+        label: '% services on-time at destination',
+        data: [95.5, 91.1, 86.3, 92.2,87.8,94.1,94.5],
+		backgroundColor:[
+			'rgba(54, 162, 235, 0.6)',
+        ],
+        borderWidth:1,
+        borderColor:'#777',
+        hoverBorderWidth:3,
+        hoverBorderColor:'#000',
+		type: 'line'
+        }],
+        labels: [' 7 October', ' 8 October', ' 9 October', ' 10 October',' 11 October',' 12 October',' 13 October']
+        
+      },
+      options:{
+        title:{
+          display:true,
+          text:'network performance',
+          fontSize:25
+        },
+        legend:{
+          display:true,
+          position:'bottom',
+          labels:{
+          fontColor:'#000'
+          }
+        }
+      }
+    });
 
 </script>
 </html>
