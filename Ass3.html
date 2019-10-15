@@ -1,0 +1,480 @@
+<!DOCTYPE HTML>
+
+<!--Code by Cheng Chua for GEOM90007 Assignment 2 -->
+<!--Tutorial by Mapbox (https://docs.mapbox.com/help/tutorials/show-changes-over-time/)
+  and Lab Exercises by GEOM90007 Tutors -->
+
+<head>
+<meta charset='utf-8' />
+<title>Assignment 3: Group Report</title>
+
+
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+
+
+<!--- Mapbox GL API -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+
+<!--- Link to style.css stylesheet -->
+<style>
+  body {
+  margin: 0;
+  padding: 0;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+/* styling for the legend */
+.legend {
+  position: absolute;
+  width: 250px;
+  margin: 10px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  background-color: white;
+  font: 12px Arial, sans-serif;
+}
+.legend h4 {
+  margin: 0 0 10px;
+}
+/* styling for the circles */
+.legend-circle {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+/* sets the specifics for the status text */
+.crash-severity span {
+  margin-left: 5px;
+  display: inline-block;
+  font: 12px Arial, sans-serif;
+}
+/* sets the specifics for the building height text */
+.crash-casualty span {
+  margin: 3px;
+  display: inline-block;
+  vertical-align: middle;
+  font: 12px Arial, sans-serif;
+}
+/* text decoration for links */
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+/* slight padding for the radio button menu */
+.menu3 {
+  padding-bottom: 10px;
+}
+
+#menu {
+background: #fff;
+border-radius: 3px;
+width: 120px;
+border: 1px solid rgba(0,0,0,0.4);
+font-family: 'Open Sans', sans-serif;
+}
+ 
+#menu a {
+font-size: 13px;
+color: #404040;
+display: block;
+margin: 0;
+padding: 0;
+padding: 10px;
+text-decoration: none;
+border-bottom: 1px solid rgba(0,0,0,0.25);
+text-align: center;
+}
+ 
+#menu a:last-child {
+border: none;
+}
+ 
+#menu a:hover {
+background-color: #f8f8f8;
+color: #404040;
+}
+ 
+#menu a.active {
+background-color: #3887be;
+color: #ffffff;
+}
+ 
+#menu a.active:hover {
+background: #3074a4;
+}
+
+
+
+#menu2 {
+background: #fff;
+border-radius: 3px;
+width: 120px;
+border: 1px solid rgba(0,0,0,0.4);
+font-family: 'Open Sans', sans-serif;
+}
+ 
+#menu2 a {
+font-size: 13px;
+color: #404040;
+display: block;
+margin: 0;
+padding: 0;
+padding: 10px;
+text-decoration: none;
+border-bottom: 1px solid rgba(0,0,0,0.25);
+text-align: center;
+}
+ 
+#menu2 a:last-child {
+border: none;
+}
+ 
+#menu2 a:hover {
+background-color: #f8f8f8;
+color: #404040;
+}
+ 
+#menu2 a.active {
+background-color: #3887be;
+color: #ffffff;
+}
+ 
+#menu2 a.active:hover {
+background: #3074a4;
+</style>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<!--- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ -->
+<!--- Mapbox GL API -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+
+<!--- Link to style.css stylesheet -->
+<link rel="stylesheet" type="text/css" href="style.css">
+
+
+
+</head>
+
+<body>
+<div id='map'></div>
+
+
+
+<!--- Legend for the map, containing different filters and information  -->
+<div id='legend' class='legend'>
+  <h1>Analysing Public Transport Performance in Melbourne, Victoria</h1>
+  <p>Data: Data sources here</p>
+  <p>Click on the boxes to toggle on and off layers.</p>
+
+<div class="menu3">
+
+<!--- First filter: Toggle between weekday, weekend, or both 
+ <div class='StationsRow' id='filters'>
+  <h4>Stations</h4>
+    <input id='all' type='checkbox' name='toggleStationsRow' value='all'  onclick="toggleStations()">
+    <label for='all'>All</label>
+  
+    <input id='weekday' type='checkbox' name='toggleStationsRow' value='weekday'  onclick="toggleStations()">
+    <label for='weekday'>Tram Stops</label>
+    <input id='weekend' type='checkbox' name='toggleStationsRow' value='weekend'  onclick="toggleStations()">
+
+    <label for='weekend'>Train Stations</label>
+    <br><br>
+  </div>-->
+
+
+ <h4>Stations</h4>
+
+
+<div id="menu"></div>
+<br>
+
+<h4>Routes</h4>
+<div id="menu2"></div>
+<br>
+  
+<!--- Second filter: Toggle between alcohol related, non-alcohol related, or both --
+   <div class='row' id='filter2'>
+  <h4>Routes</h4>
+    <input id='all2' type='radio' name='ktoggle' value='all2' checked='checked'>
+    <label for='all2'>All</label>
+    <br>
+    <input id='yesAlcohol' type='radio' name='ktoggle' value='yesAlcohol'>
+    <label for='yesAlcohol'>Tram Routes</label>
+    <br>
+    <input id='noAlcohol' type='radio' name='ktoggle' value='noAlcohol'>
+    <label for='noAlcohol'>Train Routes</label>
+    <br>
+        <input id='noAlcohol' type='radio' name='ktoggle' value='noAlcohol'>
+    <label for='noAlcohol'>Bike Routes</label>
+    <br><br>
+  </div>
+<! --- Third filter: Toggle between whether young drivers are involved or not, or all accidents -->
+
+  <div class='row' id='filter3'>
+
+  <h4>Activity</h4>
+    <input id='all3' type='radio' name='btoggle' value='all3' checked='checked'>
+    <label for='all3'>All</label>
+    <input id='yesYouth' type='radio' name='btoggle' value='yesYouth'>
+    <label for='yesYouth'>Pedestrians</label>
+    <input id='noYouth' type='radio' name='btoggle' value='noYouth'>
+    <label for='noYouth'>Cyclists</label>
+    <br><br>
+  </div>
+</div>
+</div>
+</div>
+<br><br>
+</body>
+
+<!--- End of HTML body section -->
+<!--- Start of JavaScript section -->
+<script type="text/javascript">
+  
+// Load my mapbox map style using my map access code
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3BhdGlhbGcyIiwiYSI6ImNrMW9jcWM2ZDBqaG0zb25xN2JpdHBrYmUifQ.p8XUepeFG18AhKTDgC8Vow';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/spatialg2/ck1rw6zwi48ti1cth302ola5n',
+  center: [144.96, -37.8157],
+  zoom: 14
+});
+map.on('load', function () {
+
+map.addSource('trainroutes', {
+type: 'vector',
+url: 'mapbox://spatialg2.1hnnm87y'
+});
+map.addLayer({
+'id': 'trainroutes',
+'type': 'line',
+'source': 'trainroutes',
+'source-layer': 'Tram_Stops-81ougz',
+'layout': {
+'visibility': 'visible',
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#148cd7',
+'line-width': 1
+}
+});
+
+
+map.addSource('tramroutes', {
+type: 'vector',
+url: 'mapbox://spatialg2.359uagp2'
+});
+map.addLayer({
+'id': 'tramroutes',
+'type': 'line',
+'source': 'tramroutes',
+'source-layer': 'SDM648670-3oocgl',
+'layout': {
+'visibility': 'visible',
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#35e01f',
+'line-width': 1
+}
+});
+
+
+  map.addSource('trainstops', {
+    type: 'vector',
+    url: 'mapbox://spatialg2.6a56qcyh'
+  });
+  
+  //add Layer for train stop 
+  map.addLayer({
+    'id': 'trainstops',
+    'type': 'circle',
+    'source': 'trainstops',
+    'layout': {
+      'visibility': 'visible'
+    },
+    'paint': {
+      'circle-radius': 12,
+      'circle-color': '#148cd7',
+      'circle-opacity': 0.8
+    },
+    'source-layer': 'SDM645378-dyxplk'
+  });
+  map.addSource('tramstops', {
+    type: 'vector',
+    url: 'mapbox://spatialg2.ac5qftfo'
+  });
+  
+  //add Layer for tram stop point
+  map.addLayer({
+  'id': 'tramstops',
+  'type': 'circle',
+  'source': 'tramstops',
+  'layout': {
+    'visibility': 'visible'
+  },
+  'paint': {
+    'circle-radius': 5,
+    'circle-color': '#35e01f',
+    'circle-opacity': 0.8
+  },
+  'source-layer': 'tram_stops_new-3hknrp'
+  });
+  
+});
+var toggleableLayerIds = [ 'trainstops', 'tramstops'];
+var toggleableLayerIds2 = [ 'trainroutes', 'tramroutes' ];
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+ 
+link.onclick = function (e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+    
+
+for (var i = 0; i < toggleableLayerIds2.length; i++) {
+var id = toggleableLayerIds2[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+ 
+link.onclick = function (e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu2');
+layers.appendChild(link);
+}
+    
+      
+      /*  
+  for (var i = 0; i < toggleableLayerIds.length; i++) {
+    var id = toggleableLayerIds[i];
+    var link = document.createElement('input');
+     link.setAttribute("type", "radio");
+         link.setAttribute("name", "toggleStationsRow");
+         link.setAttribute("value", "weekend");
+         link.setAttribute("id","weekend");
+     link.setAttribute("checked","checked");
+     
+    link.onclick = function (e) {
+      var clickedLayer = this.textContent;
+      e.preventDefault();
+      e.stopPropagation();
+      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+      if (visibility === 'visible') {
+      //if the button is not active set visibility to none
+        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+        this.className = '';
+      } else {
+      //if the button is active set visibility to visible
+        this.className = 'active';
+        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+      }
+    };
+    var layers = document.getElementById('filterStations');
+    layers.appendChild(link);
+  }
+  */
+  let myChart = document.getElementById('myChart').getContext('2d');
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 28;
+    Chart.defaults.global.defaultFontColor = '#777';
+  
+  let massPopChart1 = new Chart(myChart, {
+      type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+    datasets: [{
+    label: '% timetable delivered',
+        data: [99.5, 99.3, 98.5, 99.0,98.2,99.4,99.5],
+    backgroundColor:[
+      'rgba(255, 99, 132, 0.6)',
+        ],
+        borderWidth:1,
+        borderColor:'#777',
+        hoverBorderWidth:3,
+        hoverBorderColor:'#000',
+    type: 'line'
+        }, 
+    {
+        label: '% services on-time at destination',
+        data: [95.5, 91.1, 86.3, 92.2,87.8,94.1,94.5],
+    backgroundColor:[
+      'rgba(54, 162, 235, 0.6)',
+        ],
+        borderWidth:1,
+        borderColor:'#777',
+        hoverBorderWidth:3,
+        hoverBorderColor:'#000',
+    type: 'line'
+        }],
+        labels: [' 7 October', ' 8 October', ' 9 October', ' 10 October',' 11 October',' 12 October',' 13 October']
+        
+      },
+      options:{
+        title:{
+          display:true,
+          text:'network performance',
+          fontSize:25
+        },
+        legend:{
+          display:true,
+          position:'bottom',
+          labels:{
+          fontColor:'#000'
+          }
+        }
+      }
+    });
+</script>
+</html>
