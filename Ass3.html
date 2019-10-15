@@ -24,14 +24,12 @@
   margin: 0;
   padding: 0;
 }
-
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
 }
-
 /* styling for the legend */
 .legend {
   position: absolute;
@@ -44,43 +42,33 @@
   background-color: white;
   font: 12px Arial, sans-serif;
 }
-
 .legend h4 {
   margin: 0 0 10px;
 }
-
 /* styling for the circles */
-
 .legend-circle {
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
 }
-
 /* sets the specifics for the status text */
-
 .crash-severity span {
   margin-left: 5px;
   display: inline-block;
   font: 12px Arial, sans-serif;
 }
-
 /* sets the specifics for the building height text */
-
 .crash-casualty span {
   margin: 3px;
   display: inline-block;
   vertical-align: middle;
   font: 12px Arial, sans-serif;
 }
-
 /* text decoration for links */
-
 a {
   text-decoration: none;
   color: #2dc4b2;
 }
-
 /* slight padding for the radio button menu */
 .menu {
   padding-bottom: 10px;
@@ -104,9 +92,6 @@ a {
 <div id='map'></div>
 
 
-<div class="myChartContainer">
-	<canvas id="myChart" class="Chart"></canvas>
-</div>
 
 <!--- Legend for the map, containing different filters and information  -->
 <div id='legend' class='legend'>
@@ -137,8 +122,6 @@ a {
 
   
 <!--- Second filter: Toggle between alcohol related, non-alcohol related, or both --
-
-
    <div class='row' id='filter2'>
   <h4>Routes</h4>
     <input id='all2' type='radio' name='ktoggle' value='all2' checked='checked'>
@@ -154,7 +137,6 @@ a {
     <label for='noAlcohol'>Bike Routes</label>
     <br><br>
   </div>
-
 <!--- Third filter: Toggle between whether young drivers are involved or not, or all accidents -->
 
   <div class='row' id='filter3'>
@@ -180,18 +162,13 @@ a {
 	
 // Load my mapbox map style using my map access code
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3BhdGlhbGcyIiwiYSI6ImNrMW9jcWM2ZDBqaG0zb25xN2JpdHBrYmUifQ.p8XUepeFG18AhKTDgC8Vow';
-
 var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/spatialg2/ck1odux5b0yo41clcma5gam2f',
   center: [144.96, -37.8157],
   zoom: 14
 });
-
-
-
 map.on('load', function () {
-
 	map.addSource('tramroutes', {
 	  type: 'vector',
 	  url: 'mapbox://spatialg2.359uagp2'
@@ -229,8 +206,6 @@ map.on('load', function () {
 		},
 		'source-layer': 'SDM645378-dyxplk'
 	});
-
-
 	map.addSource('tramstops', {
 		type: 'vector',
 		url: 'mapbox://spatialg2.ac5qftfo'
@@ -250,13 +225,10 @@ map.on('load', function () {
 	},
 	'source-layer': 'tram_stops_new-3hknrp'
 	});
-
-
 	map.addSource('contours', {
 	  type: 'vector',
 	  url: 'mapbox://mapbox.mapbox-terrain-v2'
 	});
-
 	map.addLayer({
 	  'id': 'contours',
 	  'type': 'line',
@@ -273,17 +245,10 @@ map.on('load', function () {
 		}
 		
 	});
-
 });
-
-
-
-
-
 var toggleableLayerIds = [ 'trainstops', 'tramstops'];
 	for (var i = 0; i < toggleableLayerIds.length; i++) {
 		var id = toggleableLayerIds[i];
-
 		var link = document.createElement('a');
 		
 		 //link.setAttribute("type", "checkbox");
@@ -292,7 +257,6 @@ var toggleableLayerIds = [ 'trainstops', 'tramstops'];
          //link.setAttribute("id","weekend");
 		 //link.checked = true;
 		 link.className = 'active';
-
 		 
 		
 		 link.textContent = id;
@@ -301,9 +265,7 @@ var toggleableLayerIds = [ 'trainstops', 'tramstops'];
 					var clickedLayer = this.textContent;
 					e.preventDefault();
 					e.stopPropagation();
-
 					var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
 					if (visibility === 'visible') {
 					//if the button is not active set visibility to none
 						map.setLayoutProperty(clickedLayer, 'visibility', 'none');
@@ -327,10 +289,8 @@ var toggleableLayerIds = [ 'trainstops', 'tramstops'];
 }
 				
 			/*	
-
 	for (var i = 0; i < toggleableLayerIds.length; i++) {
 		var id = toggleableLayerIds[i];
-
 		var link = document.createElement('input');
 		 link.setAttribute("type", "radio");
          link.setAttribute("name", "toggleStationsRow");
@@ -338,14 +298,11 @@ var toggleableLayerIds = [ 'trainstops', 'tramstops'];
          link.setAttribute("id","weekend");
 		 link.setAttribute("checked","checked");
 		 
-
 		link.onclick = function (e) {
 			var clickedLayer = this.textContent;
 			e.preventDefault();
 			e.stopPropagation();
-
 			var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
 			if (visibility === 'visible') {
 			//if the button is not active set visibility to none
 				map.setLayoutProperty(clickedLayer, 'visibility', 'none');
@@ -356,18 +313,15 @@ var toggleableLayerIds = [ 'trainstops', 'tramstops'];
 				map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
 			}
 		};
-
 		var layers = document.getElementById('filterStations');
 		layers.appendChild(link);
 	}
 	*/
 	let myChart = document.getElementById('myChart').getContext('2d');
-
     // Global Options
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 28;
     Chart.defaults.global.defaultFontColor = '#777';
-
   
 	let massPopChart1 = new Chart(myChart, {
       type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
@@ -414,8 +368,5 @@ var toggleableLayerIds = [ 'trainstops', 'tramstops'];
         }
       }
     });
-
 </script>
 </html>
-
-
