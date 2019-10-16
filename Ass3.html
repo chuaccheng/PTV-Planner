@@ -211,7 +211,8 @@
     <div id='map'></div>
     <!--- Legend for the map, containing different filters and information  -->
     <div id='legend' class='legend'>
-      <h1>Analysing Public Transport Performance in Melbourne, Victoria</h1>
+      <h1>RoutePlanning: nearest Trams, Trains, or Buses?</h1>
+      <h2>Analysing accessibility of public transport in Melbourne.</h2>
       <p>Data: Data sources here</p>
       <p>Click on the boxes to toggle on and off layers.</p>
       <div class="menu3">
@@ -280,6 +281,28 @@
       zoom: 14
     });
     map.on('load', function() {
+
+      map.addSource('busroutes', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.5wovznyh'
+      });
+      map.addLayer({
+        'id': 'busroutes',
+        'type': 'line',
+        'source': 'busroutes',
+        'source-layer': 'SDM649977-2w0li1',
+        'layout': {
+          'visibility': 'visible',
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#FF8C00',
+          'line-width': 1
+        }
+      });
+
+
       map.addSource('trainroutes', {
         type: 'vector',
         url: 'mapbox://spatialg2.87xa3coe'
@@ -318,6 +341,30 @@
           'line-width': 1
         }
       });
+
+      map.addSource('busstops', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.bd16scyk'
+      });
+
+      //add Layer for train stop 
+      map.addLayer({
+        'id': 'busstops',
+        'type': 'circle',
+        'source': 'busstops',
+        'layout': {
+          'visibility': 'visible'
+        },
+        'paint': {
+          'circle-radius': 6,
+          'circle-color': '#FF8C00',
+          'circle-opacity': 0.6
+        },
+        'source-layer': 'SDM646347-3o5v3f'
+      });
+
+
+
       map.addSource('trainstops', {
         type: 'vector',
         url: 'mapbox://spatialg2.6a56qcyh'
@@ -402,8 +449,8 @@
       });
 
     });
-    var toggleableLayerIds = ['trainstops', 'tramstops'];
-    var toggleableLayerIds2 = ['trainroutes', 'tramroutes'];
+    var toggleableLayerIds = ['trainstops', 'tramstops', 'busstops'];
+    var toggleableLayerIds2 = ['trainroutes', 'tramroutes', 'busroutes'];
     var toggleableLayerIds3 = ['pedestrian', 'cyclist'];
 
     for (var i = 0; i < toggleableLayerIds.length; i++) {
