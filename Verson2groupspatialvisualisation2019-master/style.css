@@ -1,0 +1,116 @@
+
+ body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.myChartContainer{
+	
+	color:white !important;
+	
+}
+.Chart{
+	display: block !important;
+    position: absolute;
+    height: 200px !important;
+    width: 400px !important;
+	margin-left: 870px !important;	
+	margin-top: 10px !important;	
+	background-color:white !important;
+}
+/* styling for the legend */
+.legend {
+  position: absolute;
+  width: 250px;
+  margin: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  background-color: white;
+  font: 12px Arial, sans-serif;
+}
+
+.legend h4 {
+  margin: 0 0 10px;
+}
+
+/* styling for the circles */
+
+.legend-circle {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* sets the specifics for the status text */
+
+.crash-severity span {
+  margin-left: 5px;
+  display: inline-block;
+  font: 12px Arial, sans-serif;
+}
+
+/* sets the specifics for the building height text */
+
+.crash-casualty span {
+  margin: 3px;
+  display: inline-block;
+  vertical-align: middle;
+  font: 12px Arial, sans-serif;
+}
+
+
+#filterStations {
+	
+    position: absolute;
+    z-index: 1;
+    bottom: 20px;
+    left: 25px;
+    border-radius: 3px;
+    font-family: 'Open Sans', sans-serif;
+}
+ 
+#filterStations a {
+	font-size: 13px;
+	color: #404040;
+	display: inline;
+	margin: 12.5px;
+	padding: 0;
+	padding: 10px;
+	text-decoration: none;
+	width: 120px;
+	text-align: center;
+    background-color:#f0f9e8;
+}
+ 
+#filterStations a:last-child {
+border: none;
+}
+ 
+#filterStations a:hover {
+background-color: #f8f8f8;
+color: black;
+}
+ 
+#filterStations a.active {
+background-color: #bae4bc;
+color: black;
+}
+ 
+#filterStations a.active:hover {
+background:#f0f0f0;
+}
+
+/* slight padding for the radio button menu */
+
