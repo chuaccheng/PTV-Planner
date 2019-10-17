@@ -14,6 +14,7 @@
 
 
 
+
     <!--- Mapbox GL API -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
 
@@ -21,7 +22,181 @@
 
     <!--- Link to style.css stylesheet -->
     <style>
-      
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      /* styling for the legend */
+      .legend {
+        position: absolute;
+        width: 250px;
+        margin: 10px;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 30px;
+        background-color: white;
+        font: 12px Arial, sans-serif;
+      }
+
+      .legend h4 {
+        margin: 0 0 10px;
+      }
+
+      /* styling for the circles */
+      .legend-circle {
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      /* sets the specifics for the status text */
+      .crash-severity span {
+        margin-left: 5px;
+        display: inline-block;
+        font: 12px Arial, sans-serif;
+      }
+
+      /* sets the specifics for the building height text */
+      .crash-casualty span {
+        margin: 3px;
+        display: inline-block;
+        vertical-align: middle;
+        font: 12px Arial, sans-serif;
+      }
+
+      /* text decoration for links */
+      a {
+        text-decoration: none;
+        color: #2dc4b2;
+      }
+
+      /* slight padding for the radio button menu */
+      .menu3 {
+        padding-bottom: 10px;
+      }
+
+      #menu {
+        background: #fff;
+        border-radius: 3px;
+        width: 120px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      #menu a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+
+      #menu a:last-child {
+        border: none;
+      }
+
+      #menu a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+      }
+
+      #menu a.active {
+        background-color: #3887be;
+        color: #ffffff;
+      }
+
+      #menu a.active:hover {
+        background: #3074a4;
+      }
+
+      #menu2 {
+        background: #fff;
+        border-radius: 3px;
+        width: 120px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      #menu2 a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+
+      #menu2 a:last-child {
+        border: none;
+      }
+
+      #menu2 a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+      }
+
+      #menu2 a.active {
+        background-color: #3887be;
+        color: #ffffff;
+      }
+
+      #menu2 a.active:hover {
+        background: #3074a4;
+
+      }
+
+      #menu4 {
+        background: #fff;
+        border-radius: 3px;
+        width: 120px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      #menu4 a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+
+      #menu4 a:last-child {
+        border: none;
+      }
+
+      #menu4 a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+      }
+
+      #menu4 a.active {
+        background-color: #3887be;
+        color: #ffffff;
+      }
+
+      #menu4 a.active:hover {
+        background: #3074a4;
 
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
@@ -99,6 +274,7 @@
   <!--- Start of JavaScript section -->
   <script type="text/javascript">
     // Load my mapbox map style using my map access code
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3BhdGlhbGcyIiwiYSI6ImNrMW9jcWM2ZDBqaG0zb25xN2JpdHBrYmUifQ.p8XUepeFG18AhKTDgC8Vow';
 var map = new mapboxgl.Map({
   container: 'map',
