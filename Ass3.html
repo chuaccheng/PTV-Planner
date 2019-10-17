@@ -21,184 +21,7 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
 
     <!--- Link to style.css stylesheet -->
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
 
-      #map {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-      }
-
-      /* styling for the legend */
-      .legend {
-        position: absolute;
-        width: 250px;
-        margin: 10px;
-        padding-top: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 30px;
-        background-color: white;
-        font: 12px Arial, sans-serif;
-      }
-
-      .legend h4 {
-        margin: 0 0 10px;
-      }
-
-      /* styling for the circles */
-      .legend-circle {
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 10px;
-      }
-
-      /* sets the specifics for the status text */
-      .crash-severity span {
-        margin-left: 5px;
-        display: inline-block;
-        font: 12px Arial, sans-serif;
-      }
-
-      /* sets the specifics for the building height text */
-      .crash-casualty span {
-        margin: 3px;
-        display: inline-block;
-        vertical-align: middle;
-        font: 12px Arial, sans-serif;
-      }
-
-      /* text decoration for links */
-      a {
-        text-decoration: none;
-        color: #2dc4b2;
-      }
-
-      /* slight padding for the radio button menu */
-      .menu3 {
-        padding-bottom: 10px;
-      }
-
-      #menu {
-        background: #fff;
-        border-radius: 3px;
-        width: 120px;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        font-family: 'Open Sans', sans-serif;
-      }
-
-      #menu a {
-        font-size: 13px;
-        color: #404040;
-        display: block;
-        margin: 0;
-        padding: 0;
-        padding: 10px;
-        text-decoration: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-        text-align: center;
-      }
-
-      #menu a:last-child {
-        border: none;
-      }
-
-      #menu a:hover {
-        background-color: #f8f8f8;
-        color: #404040;
-      }
-
-      #menu a.active {
-        background-color: #3887be;
-        color: #ffffff;
-      }
-
-      #menu a.active:hover {
-        background: #3074a4;
-      }
-
-      #menu2 {
-        background: #fff;
-        border-radius: 3px;
-        width: 120px;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        font-family: 'Open Sans', sans-serif;
-      }
-
-      #menu2 a {
-        font-size: 13px;
-        color: #404040;
-        display: block;
-        margin: 0;
-        padding: 0;
-        padding: 10px;
-        text-decoration: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-        text-align: center;
-      }
-
-      #menu2 a:last-child {
-        border: none;
-      }
-
-      #menu2 a:hover {
-        background-color: #f8f8f8;
-        color: #404040;
-      }
-
-      #menu2 a.active {
-        background-color: #3887be;
-        color: #ffffff;
-      }
-
-      #menu2 a.active:hover {
-        background: #3074a4;
-
-      }
-
-      #menu4 {
-        background: #fff;
-        border-radius: 3px;
-        width: 120px;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        font-family: 'Open Sans', sans-serif;
-      }
-
-      #menu4 a {
-        font-size: 13px;
-        color: #404040;
-        display: block;
-        margin: 0;
-        padding: 0;
-        padding: 10px;
-        text-decoration: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-        text-align: center;
-      }
-
-      #menu4 a:last-child {
-        border: none;
-      }
-
-      #menu4 a:hover {
-        background-color: #f8f8f8;
-        color: #404040;
-      }
-
-      #menu4 a.active {
-        background-color: #3887be;
-        color: #ffffff;
-      }
-
-      #menu4 a.active:hover {
-        background: #3074a4;
-
-    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <!--- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  -->
@@ -217,12 +40,12 @@
       <p>Data: Data sources here</p>
       <p>Click on the boxes to toggle on and off layers.</p>
       <div class="menu3">
-        <!--- First filter: Toggle between weekday, weekend, or both 
+        <!--- First filter: Toggle between weekday, weekend, or both
  <div class='StationsRow' id='filters'>
   <h4>Stations</h4>
     <input id='all' type='checkbox' name='toggleStationsRow' value='all'  onclick="toggleStations()">
     <label for='all'>All</label>
-  
+
     <input id='weekday' type='checkbox' name='toggleStationsRow' value='weekday'  onclick="toggleStations()">
     <label for='weekday'>Tram Stops</label>
     <input id='weekend' type='checkbox' name='toggleStationsRow' value='weekend'  onclick="toggleStations()">
@@ -282,7 +105,7 @@ var map = new mapboxgl.Map({
   center: [144.96, -37.8157],
   zoom: 14
 });
-	
+
 map.on('load', function() {
 
 // Add place of interest symbol layer.
@@ -308,7 +131,7 @@ map.addLayer({
 			{
 				"type": "Feature",
 				"properties": {
-					
+
 					description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">Flinders Street Railway Station</a></strong>"
 				},
 				"geometry": {
@@ -319,7 +142,7 @@ map.addLayer({
 			{
 				"type": "Feature",
 				"properties": {
-					
+
 					description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">SEA LIFE Melbourne Aquarium</a></strong>"
 				},
 				"geometry": {
@@ -347,12 +170,12 @@ map.addLayer({
 					"coordinates": [144.9691, -37.8180]
 				}
 			},
-			
+
 			{
 				"type": "Feature",
 				"properties": {
 					description: "<strong><a href=\"http://www.truckeroodc.com/www/\" target=\"_blank\">The Queen Victoria Market</a></strong>"
-						
+
 				},
 				"geometry": {
 					"type": "Point",
@@ -364,7 +187,7 @@ map.addLayer({
 	"layout": {
 		"icon-image": "attraction-15",
 		'visibility': 'visible'
-		
+
 	}
 });
 
@@ -372,12 +195,12 @@ map.addLayer({
 map.on('click', 'Symbols', function (e) {
 map.flyTo({center: e.features[0].geometry.coordinates});
 });
- 
+
 // Change the cursor to a pointer when the it enters a feature in the 'Symbols' layer.
 map.on('mouseenter', 'Symbols', function () {
 map.getCanvas().style.cursor = 'pointer';
 });
- 
+
 // Change it back to a pointer when it leaves.
 map.on('mouseleave', 'Symbols', function () {
 map.getCanvas().style.cursor = '';
@@ -459,7 +282,7 @@ map.on('click', 'Symbols', function(e) {
 	url: 'mapbox://spatialg2.bd16scyk'
   });
 
-    //add Layer for bus stop 
+    //add Layer for bus stop
 	map.addLayer({
 	'id': 'busstops',
 	'type': 'circle',
@@ -481,8 +304,8 @@ map.on('click', 'Symbols', function(e) {
 	});
 
 	map.on('mouseenter', 'busstops', function(e) {
-	var trainInfo= map.queryRenderedFeatures(i.point, { 
-	layers: ['SDM646347-3o5v3f'] 
+	var trainInfo= map.queryRenderedFeatures(i.point, {
+	layers: ['SDM646347-3o5v3f']
 	});
 
 	// Change the cursor style as a UI indicator.
@@ -490,7 +313,7 @@ map.on('click', 'Symbols', function(e) {
 
 	var coordinates = e.features[0].geometry.coordinates.slice();
 	var busStopName = e.features[0].properties.STOP_NAME;
-	
+
 
 	// Ensure that if the map is zoomed out such that multiple
 	// copies of the feature are visible, the popup appears
@@ -515,12 +338,12 @@ map.on('click', 'Symbols', function(e) {
 
 
 
-	//add Layer for train stop 
+	//add Layer for train stop
 	map.addSource('trainstops', {
 	type: 'vector',
 	url: 'mapbox://spatialg2.6a56qcyh'
 	});
-    
+
 	map.addLayer({
 	'id': 'trainstops',
 	'type': 'circle',
@@ -535,7 +358,7 @@ map.on('click', 'Symbols', function(e) {
 	},
 	'source-layer': 'SDM645378-dyxplk'
 	});
-	
+
 	//Display a train stop popup on hover
 	var popup1 = new mapboxgl.Popup({
 	closeButton: false,
@@ -543,8 +366,8 @@ map.on('click', 'Symbols', function(e) {
 	});
 
 	map.on('mouseenter', 'trainstops', function(e) {
-	var trainInfo= map.queryRenderedFeatures(i.point, { 
-	layers: ['SDM645378-dyxplk'] 
+	var trainInfo= map.queryRenderedFeatures(i.point, {
+	layers: ['SDM645378-dyxplk']
 	});
 
 	// Change the cursor style as a UI indicator.
@@ -575,7 +398,7 @@ map.on('click', 'Symbols', function(e) {
 	});
 
 
-  
+
   //add Layer for tram stop point
   map.addSource('tramstops', {
 	type: 'vector',
@@ -596,7 +419,7 @@ map.on('click', 'Symbols', function(e) {
 	},
 	'source-layer': 'vic_tram_stops-4qlei7'
   });
-  
+
 	  //Display a tram stop popup on hover
 	var popup2 = new mapboxgl.Popup({
 	closeButton: false,
@@ -604,25 +427,25 @@ map.on('click', 'Symbols', function(e) {
 	});
 
 	map.on('mouseenter', 'tramstops', function(e) {
-	var trainInfo= map.queryRenderedFeatures(i.point, { 
-							layers: ['tram_stops_new-3hknrp'] 
+	var trainInfo= map.queryRenderedFeatures(i.point, {
+							layers: ['tram_stops_new-3hknrp']
 						});
-						
+
 
 	// Change the cursor style as a UI indicator.
 	map.getCanvas().style.cursor = 'pointer';
-	 
+
 	var coordinates = e.features[0].geometry.coordinates.slice();
 	var tramStopName = e.features[0].properties.STOP_NAME;
 
-	 
+
 	// Ensure that if the map is zoomed out such that multiple
 	// copies of the feature are visible, the popup appears
 	// over the copy being pointed to.
 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 	coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 	}
-	 
+
 	// Populate the popup and set its coordinates
 	// based on the feature found.
 	popup2.setLngLat(coordinates)
@@ -634,7 +457,7 @@ map.on('click', 'Symbols', function(e) {
 	map.getCanvas().style.cursor = '';
 	popup2.remove();
 	});
-  
+
 
 
   //add Layer for pedestrian point
@@ -769,7 +592,7 @@ map.on('click', 'Symbols', function(e) {
     }
 
 
-    /*  
+    /*
     for (var i = 0; i < toggleableLayerIds.length; i++) {
       var id = toggleableLayerIds[i];
       var link = document.createElement('input');
@@ -778,7 +601,7 @@ map.on('click', 'Symbols', function(e) {
            link.setAttribute("value", "weekend");
            link.setAttribute("id","weekend");
        link.setAttribute("checked","checked");
-       
+
       link.onclick = function (e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
