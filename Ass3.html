@@ -125,11 +125,7 @@
 		if (error) throw error;
 		map.addImage('camera', image);
 		map.addLayer({
-<<<<<<< HEAD
 			"id": "Places of Interests",
-=======
-			"id": "Symbols",
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
 			"type": "symbol",
 		    "source": {
 				"type": "geojson",
@@ -208,17 +204,12 @@
 
 
       // Center the map on the coordinates of any clicked symbol from the 'Symbols' layer.
-<<<<<<< HEAD
       map.on('click', 'Places of Interests', function(e) {
-=======
-      map.on('click', 'Symbols', function(e) {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         map.flyTo({
           center: e.features[0].geometry.coordinates
         });
       });
       // Change the cursor to a pointer when the it enters a feature in the 'Symbols' layer.
-<<<<<<< HEAD
       map.on('mouseenter', 'Places of Interests', function() {
         map.getCanvas().style.cursor = 'pointer';
       });
@@ -228,17 +219,6 @@
       });
       // Add popup for the 'Symbols' layer.
       map.on('click', 'Places of Interests', function(e) {
-=======
-      map.on('mouseenter', 'Symbols', function() {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      // Change it back to a pointer when it leaves.
-      map.on('mouseleave', 'Symbols', function() {
-        map.getCanvas().style.cursor = '';
-      });
-      // Add popup for the 'Symbols' layer.
-      map.on('click', 'Symbols', function(e) {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
           .setHTML("<b>" + e.features[0].properties.title)
@@ -251,11 +231,7 @@
         url: 'mapbox://spatialg2.5wovznyh'
       });
       map.addLayer({
-<<<<<<< HEAD
         'id': 'Bus Routes',
-=======
-        'id': 'busroutes',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         'type': 'line',
         'source': 'busroutes',
         'source-layer': 'SDM649977-2w0li1',
@@ -265,11 +241,7 @@
           'line-cap': 'round'
         },
         'paint': {
-<<<<<<< HEAD
           'line-color': '#FF8200',
-=======
-          'line-color': '#FF8C00',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
           'line-width': 1
         }
       });
@@ -278,11 +250,7 @@
         url: 'mapbox://spatialg2.87xa3coe'
       });
       map.addLayer({
-<<<<<<< HEAD
         'id': 'Train Routes',
-=======
-        'id': 'trainroutes',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         'type': 'line',
         'source': 'trainroutes',
         'source-layer': 'train_routes_vic-6apag4',
@@ -292,11 +260,7 @@
           'line-cap': 'round'
         },
         'paint': {
-<<<<<<< HEAD
           'line-color': '#0072CE',
-=======
-          'line-color': '#148cd7',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
           'line-width': 1
         }
       });
@@ -305,11 +269,7 @@
         url: 'mapbox://spatialg2.359uagp2'
       });
       map.addLayer({
-<<<<<<< HEAD
         'id': 'Tram Routes',
-=======
-        'id': 'tramroutes',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         'type': 'line',
         'source': 'tramroutes',
         'source-layer': 'SDM648670-3oocgl',
@@ -319,11 +279,7 @@
           'line-cap': 'round'
         },
         'paint': {
-<<<<<<< HEAD
           'line-color': '#78BE20',
-=======
-          'line-color': '#35e01f',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
           'line-width': 1
         }
       });
@@ -333,11 +289,7 @@
       });
       //add Layer for bus stop
       map.addLayer({
-<<<<<<< HEAD
         'id': 'Bus Stops',
-=======
-        'id': 'busstops',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         'type': 'circle',
         'source': 'busstops',
         'layout': {
@@ -345,11 +297,7 @@
         },
         'paint': {
           'circle-radius': 6,
-<<<<<<< HEAD
           'circle-color': '#FF8200',
-=======
-          'circle-color': '#FF8C00',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
           'circle-opacity': 0.6
         },
         'source-layer': 'SDM646347-3o5v3f'
@@ -359,11 +307,7 @@
         closeButton: false,
         closeOnClick: false
       });
-<<<<<<< HEAD
       map.on('mouseenter', 'Bus Stops', function(e) {
-=======
-      map.on('mouseenter', 'busstops', function(e) {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         var trainInfo = map.queryRenderedFeatures(i.point, {
           layers: ['SDM646347-3o5v3f']
         });
@@ -383,11 +327,7 @@
           .setHTML(busStopName)
           .addTo(map);
       });
-<<<<<<< HEAD
       map.on('mouseleave', 'Bus Stops', function() {
-=======
-      map.on('mouseleave', 'busstops', function() {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         map.getCanvas().style.cursor = '';
         popup2.remove();
       });
@@ -397,11 +337,7 @@
         url: 'mapbox://spatialg2.6a56qcyh'
       });
       map.addLayer({
-<<<<<<< HEAD
         'id': 'Train Stops',
-=======
-        'id': 'trainstops',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         'type': 'circle',
         'source': 'trainstops',
         'layout': {
@@ -409,11 +345,7 @@
         },
         'paint': {
           'circle-radius': 12,
-<<<<<<< HEAD
           'circle-color': '#0072CE',
-=======
-          'circle-color': '#148cd7',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
           'circle-opacity': 0.8
         },
         'source-layer': 'SDM645378-dyxplk'
@@ -423,11 +355,7 @@
         closeButton: false,
         closeOnClick: false
       });
-<<<<<<< HEAD
       map.on('mouseenter', 'Train Stops', function(e) {
-=======
-      map.on('mouseenter', 'trainstops', function(e) {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         var trainInfo = map.queryRenderedFeatures(i.point, {
           layers: ['SDM645378-dyxplk']
         });
@@ -449,11 +377,7 @@
           .setHTML(trainStopName)
           .addTo(map);
       });
-<<<<<<< HEAD
       map.on('mouseleave', 'Train Stops', function() {
-=======
-      map.on('mouseleave', 'trainstops', function() {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         map.getCanvas().style.cursor = '';
         popup1.remove();
       });
@@ -463,11 +387,7 @@
         url: 'mapbox://spatialg2.3f0qkv92'
       });
       map.addLayer({
-<<<<<<< HEAD
         'id': 'Tram Stops',
-=======
-        'id': 'tramstops',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         'type': 'circle',
         'source': 'tramstops',
         'layout': {
@@ -475,11 +395,7 @@
         },
         'paint': {
           'circle-radius': 5,
-<<<<<<< HEAD
           'circle-color': '#78BE20',
-=======
-          'circle-color': '#35e01f',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
           'circle-opacity': 0.8
         },
         'source-layer': 'vic_tram_stops-4qlei7'
@@ -489,11 +405,7 @@
         closeButton: false,
         closeOnClick: false
       });
-<<<<<<< HEAD
       map.on('mouseenter', 'Tram Stops', function(e) {
-=======
-      map.on('mouseenter', 'tramstops', function(e) {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         var trainInfo = map.queryRenderedFeatures(i.point, {
           layers: ['tram_stops_new-3hknrp']
         });
@@ -513,14 +425,31 @@
           .setHTML(tramStopName)
           .addTo(map);
       });
-<<<<<<< HEAD
       map.on('mouseleave', 'Tram Stops', function() {
-=======
-      map.on('mouseleave', 'tramstops', function() {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         map.getCanvas().style.cursor = '';
         popup2.remove();
       });
+
+      map.addSource('schools', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.0qbxjien'
+      });
+      map.loadImage('https://upload.wikimedia.org/wikipedia/commons/3/35/Map_marker_icon_%E2%80%93_Nicolas_Mollet_%E2%80%93_School_%E2%80%93_Health_%26_Education_%E2%80%93_White.png', function(error, image) {
+        if (error) throw error;
+        map.addImage('school', image);
+        map.addLayer({
+        'id': 'Schools',
+        'type': 'symbol',
+        'source': 'schools',
+        "layout": {
+        "icon-image": "school",
+        "icon-size": 0.8
+        },
+        'source-layer': 'mygeodata-6i3onw'
+        });
+      });
+
+
 
       //add Layer for hospital location stop point
       map.addSource('hospitals', {
@@ -532,11 +461,7 @@
 			if (error) throw error;
 			map.addImage('cat', image);
 			map.addLayer({
-<<<<<<< HEAD
 			'id': 'Hospitals',
-=======
-			'id': 'hospitals',
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
 			'type': 'symbol',
 			'source': 'hospitals',
 			"layout": {
@@ -555,11 +480,7 @@
         closeOnClick: false
       });
 
-<<<<<<< HEAD
       map.on('mouseenter', 'Hospitals', function(e) {
-=======
-      map.on('mouseenter', 'hospitals', function(e) {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
         var trainInfo = map.queryRenderedFeatures(i.point, {
           layers: ['victoria_hospitals-8dgbbt']
         });
@@ -579,68 +500,19 @@
           .setHTML(hospitalName)
           .addTo(map);
       });
-<<<<<<< HEAD
-      map.on('mouseleave', 'ospitals', function() {
-=======
-      map.on('mouseleave', 'hospitals', function() {
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
+      map.on('mouseleave', 'Hospitals', function() {
         map.getCanvas().style.cursor = '';
         popup2.remove();
       });
 
 
 
-<<<<<<< HEAD
 
     });
     var toggleableLayerIds = ['Train Stops', 'Tram Stops', 'Bus Stops'];
     var toggleableLayerIds2 = ['Train Routes', 'Tram Routes', 'Bus Routes'];
-    var toggleableLayerIds3 = ['Hospitals','Places of Interests']
+    var toggleableLayerIds3 = ['Hospitals','Schools','Places of Interests']
 
-=======
-      //add Layer for pedestrian point
-      map.addSource('pedestrian', {
-        type: 'vector',
-        url: 'mapbox://spatialg2.0ft56jdz'
-      });
-      map.addLayer({
-        'id': 'pedestrian',
-        'source': 'pedestrian',
-        'type': 'circle',
-        'layout': {
-          'visibility': 'visible',
-        },
-        'paint': {
-          'circle-radius': 12,
-          'circle-color': '#B22222',
-          'circle-opacity': 0.8
-        },
-        'source-layer': 'peds_count-230ysa'
-      });
-      map.addSource('cyclist', {
-        type: 'vector',
-        url: 'mapbox://spatialg2.6pdy9oz7'
-      });
-      //add Layer for cyclist point
-      map.addLayer({
-        'id': 'cyclist',
-        'source': 'cyclist',
-        'type': 'circle',
-        'layout': {
-          'visibility': 'visible',
-        },
-        'paint': {
-          'circle-radius': 12,
-          'circle-color': '#FFFF00',
-          'circle-opacity': 0.8
-        },
-        'source-layer': 'bike_count-9e0dw8'
-      });
-    });
-    var toggleableLayerIds = ['trainstops', 'tramstops', 'busstops'];
-    var toggleableLayerIds2 = ['trainroutes', 'tramroutes', 'busroutes'];
-    var toggleableLayerIds3 = ['pedestrian', 'cyclist'];
->>>>>>> caf840ae71044d74e9cfd5c2197c7dbe03491eeb
     for (var i = 0; i < toggleableLayerIds.length; i++) {
       var id = toggleableLayerIds[i];
       var link = document.createElement('a');
