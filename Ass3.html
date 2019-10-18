@@ -27,6 +27,13 @@
  -->
     <!--- Mapbox GL API -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
     <!--- Link to style.css stylesheet -->
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
@@ -45,7 +52,6 @@
   <h4>Stations</h4>
     <input id='all' type='checkbox' name='toggleStationsRow' value='all'  onclick="toggleStations()">
     <label for='all'>All</label>
-
     <input id='weekday' type='checkbox' name='toggleStationsRow' value='weekday'  onclick="toggleStations()">
     <label for='weekday'>Tram Stops</label>
     <input id='weekend' type='checkbox' name='toggleStationsRow' value='weekend'  onclick="toggleStations()">
@@ -92,436 +98,446 @@
     </div>
     <br><br>
     -->
+      </div>
+    </div>
+
+
   </body>
   <!--- End of HTML body section -->
   <!--- Start of JavaScript section -->
   <script type="text/javascript">
     // Load my mapbox map style using my map access code
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3BhdGlhbGcyIiwiYSI6ImNrMW9jcWM2ZDBqaG0zb25xN2JpdHBrYmUifQ.p8XUepeFG18AhKTDgC8Vow';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/spatialg2/ck1odx3p11omq1cqetcexdtee',
+      center: [144.96, -37.8157],
+      zoom: 14
+    });
+    map.addControl(new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    }));
+    map.on('load', function() {
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic3BhdGlhbGcyIiwiYSI6ImNrMW9jcWM2ZDBqaG0zb25xN2JpdHBrYmUifQ.p8XUepeFG18AhKTDgC8Vow';
-var map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/spatialg2/ck1rw6zwi48ti1cth302ola5n',
-  center: [144.96, -37.8157],
-  zoom: 14
-});
-
-map.on('load', function() {
-
-// Add place of interest symbol layer.
-map.addLayer({
-	"id": "Symbols",
-	"type": "symbol",
-	// Customize symbol property.
-	"source": {
-		"type": "geojson",
-		"data": {
-			"type": "FeatureCollection",
-			"features": [
-			{
-				"type": "Feature",
-				"properties": {
-					description: "<strong><a href=\"https://www.google.com/destination?q=coordinates+CBD&output=search&dest_mid=/m/0262nms&sa=X&ved=2ahUKEwjNyZTM7KDlAhXSgeYKHcM7AMwQri4wHnoECBIQHg#dest_mid=/m/0262nms&tcfs=EhEKCi9tLzAyNjJubXMSA0NCRA\" target=\"_blank\">CBD</a></strong>"
-				},
-				"geometry": {
-					"type": "Point",
-					"coordinates": [144.5747, -37.4850]
-				}
+	map.loadImage('https://upload.wikimedia.org/wikipedia/commons/3/3d/Human-emblem-camera-blue-128.png', function(error, image) {
+		if (error) throw error;
+		map.addImage('camera', image);
+		map.addLayer({
+			"id": "Symbols",
+			"type": "symbol",
+		    "source": {
+				"type": "geojson",
+				"data": {
+				"type": "FeatureCollection",
+				"features": [{
+					"type": "Feature",
+					"properties": {
+					  description: "<strong><a href=\"https://www.google.com/destination?q=coordinates+CBD&output=search&dest_mid=/m/0262nms&sa=X&ved=2ahUKEwjNyZTM7KDlAhXSgeYKHcM7AMwQri4wHnoECBIQHg#dest_mid=/m/0262nms&tcfs=EhEKCi9tLzAyNjJubXMSA0NCRA\" target=\"_blank\">CBD</a></strong>"
+					},
+					"geometry": {
+					  "type": "Point",
+					  "coordinates": [144.5747, -37.4850]
+					}
+				  },
+				  {
+					"type": "Feature",
+					"properties": {
+					  description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">Flinders Street Railway Station</a></strong>"
+					},
+					"geometry": {
+					  "type": "Point",
+					  "coordinates": [144.9671, -37.8183]
+					}
+				  },
+				  {
+					"type": "Feature",
+					"properties": {
+					  description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">SEA LIFE Melbourne Aquarium</a></strong>"
+					},
+					"geometry": {
+					  "type": "Point",
+					  "coordinates": [144.9582, -37.8207]
+					}
+				  },
+				  {
+					"type": "Feature",
+					"properties": {
+					  description: "<strong><a href=\"https://www.rbg.vic.gov.au\" target=\"_blank\">Royal Botanic Gardens</a></strong>"
+					},
+					"geometry": {
+					  "type": "Point",
+					  "coordinates": [144.9796, -37.8304]
+					}
+				  },
+				  {
+					"type": "Feature",
+					"properties": {
+					  description: "<strong><a href=\"https://fedsquare.com\" target=\"_blank\">Federation Square</a></strong>"
+					},
+					"geometry": {
+					  "type": "Point",
+					  "coordinates": [144.9691, -37.8180]
+					}
+				  },
+				  {
+					"type": "Feature",
+					"properties": {
+					  description: "<strong><a href=\"http://www.truckeroodc.com/www/\" target=\"_blank\">The Queen Victoria Market</a></strong>"
+					},
+					"geometry": {
+					  "type": "Point",
+					  "coordinates": [144.9568, -37.8076]
+					}
+				  }
+				]
+			  }
 			},
-			{
-				"type": "Feature",
-				"properties": {
+			"layout": {
+			"icon-image": "camera",
+			"icon-size": 0.19
+			}
+		});
+	});
 
-					description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">Flinders Street Railway Station</a></strong>"
-				},
-				"geometry": {
-					"type": "Point",
-					"coordinates": [144.9671, -37.8183]
-				}
+
+
+      // Center the map on the coordinates of any clicked symbol from the 'Symbols' layer.
+      map.on('click', 'Symbols', function(e) {
+        map.flyTo({
+          center: e.features[0].geometry.coordinates
+        });
+      });
+      // Change the cursor to a pointer when the it enters a feature in the 'Symbols' layer.
+      map.on('mouseenter', 'Symbols', function() {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      // Change it back to a pointer when it leaves.
+      map.on('mouseleave', 'Symbols', function() {
+        map.getCanvas().style.cursor = '';
+      });
+      // Add popup for the 'Symbols' layer.
+      map.on('click', 'Symbols', function(e) {
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML("<b>" + e.features[0].properties.title)
+          .setHTML("<b>" + e.features[0].properties.description)
+          .addTo(map);
+      });
+
+      map.addSource('busroutes', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.5wovznyh'
+      });
+      map.addLayer({
+        'id': 'busroutes',
+        'type': 'line',
+        'source': 'busroutes',
+        'source-layer': 'SDM649977-2w0li1',
+        'layout': {
+          'visibility': 'visible',
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#FF8C00',
+          'line-width': 1
+        }
+      });
+      map.addSource('trainroutes', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.87xa3coe'
+      });
+      map.addLayer({
+        'id': 'trainroutes',
+        'type': 'line',
+        'source': 'trainroutes',
+        'source-layer': 'train_routes_vic-6apag4',
+        'layout': {
+          'visibility': 'visible',
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#148cd7',
+          'line-width': 1
+        }
+      });
+      map.addSource('tramroutes', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.359uagp2'
+      });
+      map.addLayer({
+        'id': 'tramroutes',
+        'type': 'line',
+        'source': 'tramroutes',
+        'source-layer': 'SDM648670-3oocgl',
+        'layout': {
+          'visibility': 'visible',
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#35e01f',
+          'line-width': 1
+        }
+      });
+      map.addSource('busstops', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.bd16scyk'
+      });
+      //add Layer for bus stop
+      map.addLayer({
+        'id': 'busstops',
+        'type': 'circle',
+        'source': 'busstops',
+        'layout': {
+          'visibility': 'visible'
+        },
+        'paint': {
+          'circle-radius': 6,
+          'circle-color': '#FF8C00',
+          'circle-opacity': 0.6
+        },
+        'source-layer': 'SDM646347-3o5v3f'
+      });
+      //Display a train stop popup on hover
+      var popup2 = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+      map.on('mouseenter', 'busstops', function(e) {
+        var trainInfo = map.queryRenderedFeatures(i.point, {
+          layers: ['SDM646347-3o5v3f']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var busStopName = e.features[0].properties.STOP_NAME;
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup2.setLngLat(coordinates)
+          .setHTML(busStopName)
+          .addTo(map);
+      });
+      map.on('mouseleave', 'busstops', function() {
+        map.getCanvas().style.cursor = '';
+        popup2.remove();
+      });
+      //add Layer for train stop
+      map.addSource('trainstops', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.6a56qcyh'
+      });
+      map.addLayer({
+        'id': 'trainstops',
+        'type': 'circle',
+        'source': 'trainstops',
+        'layout': {
+          'visibility': 'visible'
+        },
+        'paint': {
+          'circle-radius': 12,
+          'circle-color': '#148cd7',
+          'circle-opacity': 0.8
+        },
+        'source-layer': 'SDM645378-dyxplk'
+      });
+      //Display a train stop popup on hover
+      var popup1 = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+      map.on('mouseenter', 'trainstops', function(e) {
+        var trainInfo = map.queryRenderedFeatures(i.point, {
+          layers: ['SDM645378-dyxplk']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var trainStopName = e.features[0].properties.STOP_NAME;
+        var trainTicketZone = e.features[0].properties.TICKETZONE;
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup1.setLngLat(coordinates)
+          .setHTML(trainTicketZone)
+          .setHTML(trainStopName)
+          .addTo(map);
+      });
+      map.on('mouseleave', 'trainstops', function() {
+        map.getCanvas().style.cursor = '';
+        popup1.remove();
+      });
+      //add Layer for tram stop point
+      map.addSource('tramstops', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.3f0qkv92'
+      });
+      map.addLayer({
+        'id': 'tramstops',
+        'type': 'circle',
+        'source': 'tramstops',
+        'layout': {
+          'visibility': 'visible'
+        },
+        'paint': {
+          'circle-radius': 5,
+          'circle-color': '#35e01f',
+          'circle-opacity': 0.8
+        },
+        'source-layer': 'vic_tram_stops-4qlei7'
+      });
+      //Display a tram stop popup on hover
+      var popup2 = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+      map.on('mouseenter', 'tramstops', function(e) {
+        var trainInfo = map.queryRenderedFeatures(i.point, {
+          layers: ['tram_stops_new-3hknrp']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var tramStopName = e.features[0].properties.STOP_NAME;
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup2.setLngLat(coordinates)
+          .setHTML(tramStopName)
+          .addTo(map);
+      });
+      map.on('mouseleave', 'tramstops', function() {
+        map.getCanvas().style.cursor = '';
+        popup2.remove();
+      });
+
+      //add Layer for hospital location stop point
+      map.addSource('hospitals', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.5bbg9qab'
+      });
+
+		map.loadImage('https://upload.wikimedia.org/wikipedia/commons/1/1b/Map_marker_icon_%E2%80%93_Nicolas_Mollet_%E2%80%93_Hospital_%E2%80%93_Health_%26_Education_%E2%80%93_Dark.png', function(error, image) {
+			if (error) throw error;
+			map.addImage('cat', image);
+			map.addLayer({
+			'id': 'hospitals',
+			'type': 'symbol',
+			'source': 'hospitals',
+			"layout": {
+			"icon-image": "cat",
+			"icon-size": 0.8
 			},
-			{
-				"type": "Feature",
-				"properties": {
-
-					description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">SEA LIFE Melbourne Aquarium</a></strong>"
-				},
-				"geometry": {
-					"type": "Point",
-					"coordinates": [144.9582, -37.8207]
-				}
-			},
-			{
-				"type": "Feature",
-				"properties": {
-					description: "<strong><a href=\"https://www.rbg.vic.gov.au\" target=\"_blank\">Royal Botanic Gardens</a></strong>"
-				},
-				"geometry": {
-					"type": "Point",
-					"coordinates": [144.9796, -37.8304]
-				}
-			},
-			{
-				"type": "Feature",
-				"properties": {
-					description: "<strong><a href=\"https://fedsquare.com\" target=\"_blank\">Federation Square</a></strong>"
-				},
-				"geometry": {
-					"type": "Point",
-					"coordinates": [144.9691, -37.8180]
-				}
-			},
-
-			{
-				"type": "Feature",
-				"properties": {
-					description: "<strong><a href=\"http://www.truckeroodc.com/www/\" target=\"_blank\">The Queen Victoria Market</a></strong>"
-
-				},
-				"geometry": {
-					"type": "Point",
-					"coordinates": [144.9568, -37.8076]
-				}
-			}]
-		}
-	},
-	"layout": {
-		"icon-image": "attraction-15",
-		'visibility': 'visible'
-
-	}
-});
-
-// Center the map on the coordinates of any clicked symbol from the 'Symbols' layer.
-map.on('click', 'Symbols', function (e) {
-map.flyTo({center: e.features[0].geometry.coordinates});
-});
-
-// Change the cursor to a pointer when the it enters a feature in the 'Symbols' layer.
-map.on('mouseenter', 'Symbols', function () {
-map.getCanvas().style.cursor = 'pointer';
-});
-
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'Symbols', function () {
-map.getCanvas().style.cursor = '';
-});
-
-
-// Add popup for the 'Symbols' layer.
-map.on('click', 'Symbols', function(e) {
-	new mapboxgl.Popup()
-	  .setLngLat(e.lngLat)
-	  .setHTML("<b>" + e.features[0].properties.title)
-	  .setHTML("<b>" + e.features[0].properties.description)
-
-	  .addTo(map);
-});
-
-  map.addSource('busroutes', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.5wovznyh'
-  });
-  map.addLayer({
-	'id': 'busroutes',
-	'type': 'line',
-	'source': 'busroutes',
-	'source-layer': 'SDM649977-2w0li1',
-	'layout': {
-	  'visibility': 'visible',
-	  'line-join': 'round',
-	  'line-cap': 'round'
-	},
-	'paint': {
-	  'line-color': '#FF8C00',
-	  'line-width': 1
-	}
-  });
-
-
-  map.addSource('trainroutes', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.87xa3coe'
-  });
-  map.addLayer({
-	'id': 'trainroutes',
-	'type': 'line',
-	'source': 'trainroutes',
-	'source-layer': 'train_routes_vic-6apag4',
-	'layout': {
-	  'visibility': 'visible',
-	  'line-join': 'round',
-	  'line-cap': 'round'
-	},
-	'paint': {
-	  'line-color': '#148cd7',
-	  'line-width': 1
-	}
-  });
-  map.addSource('tramroutes', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.359uagp2'
-  });
-  map.addLayer({
-	'id': 'tramroutes',
-	'type': 'line',
-	'source': 'tramroutes',
-	'source-layer': 'SDM648670-3oocgl',
-	'layout': {
-	  'visibility': 'visible',
-	  'line-join': 'round',
-	  'line-cap': 'round'
-	},
-	'paint': {
-	  'line-color': '#35e01f',
-	  'line-width': 1
-	}
-  });
-
-  map.addSource('busstops', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.bd16scyk'
-  });
-
-    //add Layer for bus stop
-	map.addLayer({
-	'id': 'busstops',
-	'type': 'circle',
-	'source': 'busstops',
-	'layout': {
-	  'visibility': 'visible'
-	},
-	'paint': {
-	  'circle-radius': 6,
-	  'circle-color': '#FF8C00',
-	  'circle-opacity': 0.6
-	},
-	'source-layer': 'SDM646347-3o5v3f'
-	});
-	//Display a train stop popup on hover
-	var popup2 = new mapboxgl.Popup({
-	closeButton: false,
-	closeOnClick: false
-	});
-
-	map.on('mouseenter', 'busstops', function(e) {
-	var trainInfo= map.queryRenderedFeatures(i.point, {
-	layers: ['SDM646347-3o5v3f']
-	});
-
-	// Change the cursor style as a UI indicator.
-	map.getCanvas().style.cursor = 'pointer';
-
-	var coordinates = e.features[0].geometry.coordinates.slice();
-	var busStopName = e.features[0].properties.STOP_NAME;
-
-
-	// Ensure that if the map is zoomed out such that multiple
-	// copies of the feature are visible, the popup appears
-	// over the copy being pointed to.
-	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-	coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	}
-
-	// Populate the popup and set its coordinates
-	// based on the feature found.
-	popup2.setLngLat(coordinates)
-	.setHTML(busStopName)
-	.addTo(map);
-	});
-
-	map.on('mouseleave', 'busstops', function() {
-	map.getCanvas().style.cursor = '';
-	popup2.remove();
-	});
+			'source-layer': 'victoria_hospitals-8dgbbt'
+			});
+		});
 
 
 
+      //Display a tram stop popup on hover
+      var popup2 = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
 
-
-	//add Layer for train stop
-	map.addSource('trainstops', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.6a56qcyh'
-	});
-
-	map.addLayer({
-	'id': 'trainstops',
-	'type': 'circle',
-	'source': 'trainstops',
-	'layout': {
-	'visibility': 'visible'
-	},
-	'paint': {
-	'circle-radius': 12,
-	'circle-color': '#148cd7',
-	'circle-opacity': 0.8
-	},
-	'source-layer': 'SDM645378-dyxplk'
-	});
-
-	//Display a train stop popup on hover
-	var popup1 = new mapboxgl.Popup({
-	closeButton: false,
-	closeOnClick: false
-	});
-
-	map.on('mouseenter', 'trainstops', function(e) {
-	var trainInfo= map.queryRenderedFeatures(i.point, {
-	layers: ['SDM645378-dyxplk']
-	});
-
-	// Change the cursor style as a UI indicator.
-	map.getCanvas().style.cursor = 'pointer';
-
-	var coordinates = e.features[0].geometry.coordinates.slice();
-	var trainStopName = e.features[0].properties.STOP_NAME;
-	var trainTicketZone = e.features[0].properties.TICKETZONE;
-
-	// Ensure that if the map is zoomed out such that multiple
-	// copies of the feature are visible, the popup appears
-	// over the copy being pointed to.
-	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-	coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	}
-
-	// Populate the popup and set its coordinates
-	// based on the feature found.
-	popup1.setLngLat(coordinates)
-	.setHTML(trainTicketZone)
-	.setHTML(trainStopName)
-	.addTo(map);
-	});
-
-	map.on('mouseleave', 'trainstops', function() {
-	map.getCanvas().style.cursor = '';
-	popup1.remove();
-	});
+      map.on('mouseenter', 'hospitals', function(e) {
+        var trainInfo = map.queryRenderedFeatures(i.point, {
+          layers: ['victoria_hospitals-8dgbbt']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var hospitalName = e.features[0].properties.Hospital_name;
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup2.setLngLat(coordinates)
+          .setHTML(hospitalName)
+          .addTo(map);
+      });
+      map.on('mouseleave', 'hospitals', function() {
+        map.getCanvas().style.cursor = '';
+        popup2.remove();
+      });
 
 
 
-  //add Layer for tram stop point
-  map.addSource('tramstops', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.3f0qkv92'
-  });
-
-  map.addLayer({
-	'id': 'tramstops',
-	'type': 'circle',
-	'source': 'tramstops',
-	'layout': {
-	  'visibility': 'visible'
-	},
-	'paint': {
-	  'circle-radius': 5,
-	  'circle-color': '#35e01f',
-	  'circle-opacity': 0.8
-	},
-	'source-layer': 'vic_tram_stops-4qlei7'
-  });
-
-	  //Display a tram stop popup on hover
-	var popup2 = new mapboxgl.Popup({
-	closeButton: false,
-	closeOnClick: false
-	});
-
-	map.on('mouseenter', 'tramstops', function(e) {
-	var trainInfo= map.queryRenderedFeatures(i.point, {
-							layers: ['tram_stops_new-3hknrp']
-						});
-
-
-	// Change the cursor style as a UI indicator.
-	map.getCanvas().style.cursor = 'pointer';
-
-	var coordinates = e.features[0].geometry.coordinates.slice();
-	var tramStopName = e.features[0].properties.STOP_NAME;
-
-
-	// Ensure that if the map is zoomed out such that multiple
-	// copies of the feature are visible, the popup appears
-	// over the copy being pointed to.
-	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-	coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	}
-
-	// Populate the popup and set its coordinates
-	// based on the feature found.
-	popup2.setLngLat(coordinates)
-	.setHTML(tramStopName)
-	.addTo(map);
-	});
-
-	map.on('mouseleave', 'tramstops', function() {
-	map.getCanvas().style.cursor = '';
-	popup2.remove();
-	});
-
-
-
-  //add Layer for pedestrian point
-  map.addSource('pedestrian', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.0ft56jdz'
-  });
-
-  map.addLayer({
-	'id': 'pedestrian',
-	'source': 'pedestrian',
-	'type': 'circle',
-	'layout': {
-	  'visibility': 'visible',
-	},
-	'paint': {
-	  'circle-radius': 12,
-	  'circle-color': '#B22222',
-	  'circle-opacity': 0.8
-	},
-	'source-layer': 'peds_count-230ysa'
-  });
-
-  map.addSource('cyclist', {
-	type: 'vector',
-	url: 'mapbox://spatialg2.6pdy9oz7'
-  });
-
-  //add Layer for cyclist point
-  map.addLayer({
-	'id': 'cyclist',
-	'source': 'cyclist',
-	'type': 'circle',
-	'layout': {
-	  'visibility': 'visible',
-	},
-	'paint': {
-	  'circle-radius': 12,
-	  'circle-color': '#FFFF00',
-	  'circle-opacity': 0.8
-	},
-	'source-layer': 'bike_count-9e0dw8'
-  });
-
-});
+      //add Layer for pedestrian point
+      map.addSource('pedestrian', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.0ft56jdz'
+      });
+      map.addLayer({
+        'id': 'pedestrian',
+        'source': 'pedestrian',
+        'type': 'circle',
+        'layout': {
+          'visibility': 'visible',
+        },
+        'paint': {
+          'circle-radius': 12,
+          'circle-color': '#B22222',
+          'circle-opacity': 0.8
+        },
+        'source-layer': 'peds_count-230ysa'
+      });
+      map.addSource('cyclist', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.6pdy9oz7'
+      });
+      //add Layer for cyclist point
+      map.addLayer({
+        'id': 'cyclist',
+        'source': 'cyclist',
+        'type': 'circle',
+        'layout': {
+          'visibility': 'visible',
+        },
+        'paint': {
+          'circle-radius': 12,
+          'circle-color': '#FFFF00',
+          'circle-opacity': 0.8
+        },
+        'source-layer': 'bike_count-9e0dw8'
+      });
+    });
     var toggleableLayerIds = ['trainstops', 'tramstops', 'busstops'];
     var toggleableLayerIds2 = ['trainroutes', 'tramroutes', 'busroutes'];
     var toggleableLayerIds3 = ['pedestrian', 'cyclist'];
-
     for (var i = 0; i < toggleableLayerIds.length; i++) {
       var id = toggleableLayerIds[i];
-
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
       link.textContent = id;
-
       link.onclick = function(e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
         e.stopPropagation();
-
         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
         if (visibility === 'visible') {
           map.setLayoutProperty(clickedLayer, 'visibility', 'none');
           this.className = '';
@@ -530,26 +546,20 @@ map.on('click', 'Symbols', function(e) {
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-
       var layers = document.getElementById('menu');
       layers.appendChild(link);
     }
-
     for (var i = 0; i < toggleableLayerIds2.length; i++) {
       var id = toggleableLayerIds2[i];
-
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
       link.textContent = id;
-
       link.onclick = function(e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
         e.stopPropagation();
-
         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
         if (visibility === 'visible') {
           map.setLayoutProperty(clickedLayer, 'visibility', 'none');
           this.className = '';
@@ -558,26 +568,21 @@ map.on('click', 'Symbols', function(e) {
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-
       var layers = document.getElementById('menu2');
       layers.appendChild(link);
     }
 
     for (var i = 0; i < toggleableLayerIds3.length; i++) {
       var id = toggleableLayerIds3[i];
-
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
       link.textContent = id;
-
       link.onclick = function(e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
         e.stopPropagation();
-
         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
         if (visibility === 'visible') {
           map.setLayoutProperty(clickedLayer, 'visibility', 'none');
           this.className = '';
@@ -586,12 +591,9 @@ map.on('click', 'Symbols', function(e) {
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-
       var layers = document.getElementById('menu4');
       layers.appendChild(link);
     }
-
-
     /*
     for (var i = 0; i < toggleableLayerIds.length; i++) {
       var id = toggleableLayerIds[i];
@@ -601,7 +603,6 @@ map.on('click', 'Symbols', function(e) {
            link.setAttribute("value", "weekend");
            link.setAttribute("id","weekend");
        link.setAttribute("checked","checked");
-
       link.onclick = function (e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
@@ -626,7 +627,6 @@ map.on('click', 'Symbols', function(e) {
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 28;
     Chart.defaults.global.defaultFontColor = '#777';
-
     let massPopChart1 = new Chart(myChart, {
       type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
       data: {
@@ -656,7 +656,6 @@ map.on('click', 'Symbols', function(e) {
           }
         ],
         labels: [' 7 October', ' 8 October', ' 9 October', ' 10 October', ' 11 October', ' 12 October', ' 13 October']
-
       },
       options: {
         title: {
