@@ -121,9 +121,9 @@
     }));
     map.on('load', function() {
 
-	map.loadImage('https://upload.wikimedia.org/wikipedia/commons/3/3d/Human-emblem-camera-blue-128.png', function(error, image) {
+	map.loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Map_Icon_-_Attractions.png/256px-Map_Icon_-_Attractions.png', function(error, image) {
 		if (error) throw error;
-		map.addImage('camera', image);
+		map.addImage('cameraicon', image);
 		map.addLayer({
 			"id": "Places of Interests",
 			"type": "symbol",
@@ -195,8 +195,8 @@
 			  }
 			},
 			"layout": {
-			"icon-image": "camera",
-			"icon-size": 0.19
+			"icon-image": 'cameraicon',
+			"icon-size": 0.11
 			}
 		});
 	});
