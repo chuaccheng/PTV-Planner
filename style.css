@@ -16,10 +16,24 @@ body {
       }
 
 
+
+
+.mainmenu {
+  position: absolute;
+  width: 320px;
+  margin: 5px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  background-color: white;
+  font: 13px Helvetica, sans-serif;
+  }
+
+}
 /* styling for the legend */
 .legend {
 position: absolute;
-width: 320px;
 margin: 5px;
 padding-top: 10px;
 padding-left: 20px;
@@ -29,7 +43,7 @@ background-color: white;
 font: 12px Arial, sans-serif;
 }
 
-.legend h4 {
+.mainmenu h4 {
 margin: 0 0 10px;
 }
 
@@ -57,9 +71,7 @@ color: #2dc4b2;
 }
 
 /* slight padding for the radio button menu */
-.mainmenu {
-padding-bottom: 10px;
-}
+
 
 #mainmenu {
 background: #fff;

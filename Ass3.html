@@ -12,9 +12,6 @@
 
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-
-
-
     <!--- Mapbox GL API -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
 
@@ -23,8 +20,7 @@
     <!--- Link to style.css stylesheet -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <!--- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- -->
+
     <!--- Mapbox GL API -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
 
@@ -41,23 +37,20 @@
   <body>
     <div id='map'></div>
     <!--- Legend for the map, containing different filters and information  -->
-    <div id='legend' class='legend'>
+
+    <!--- Main menu container -->
+    <div class="mainmenu">
+
       <h1>PTV Planner: nearest Trams, Trains, and Buses</h1>
-      <h2>Analysing accessibility of public transport in Melbourne.</h2>
-      <p>Data: Data sources here</p>
+      <h2>Visualising the distribution of public transport in Melbourne.</h2>
+      <p>Data:
+        <a href="https://discover.data.vic.gov.au/dataset/hospital-locations-spatial">Hospitals</a>,
+        <a href="https://discover.data.vic.gov.au/dataset/school-locations-time-series">Schools</a>,
+        <a href="https://www.ptv.vic.gov.au/footer/data-and-reporting/datasets/">PTV Stops and Routes</a>
+      </p>
       <p>Click on the boxes to toggle on and off layers.</p>
-      <div class="mainmenu">
-        <!--- First filter: Toggle between weekday, weekend, or both
- <div class='StationsRow' id='filters'>
-  <h4>Stations</h4>
-    <input id='all' type='checkbox' name='toggleStationsRow' value='all'  onclick="toggleStations()">
-    <label for='all'>All</label>
-    <input id='weekday' type='checkbox' name='toggleStationsRow' value='weekday'  onclick="toggleStations()">
-    <label for='weekday'>Tram Stops</label>
-    <input id='weekend' type='checkbox' name='toggleStationsRow' value='weekend'  onclick="toggleStations()">
-    <label for='weekend'>Train Stations</label>
-    <br><br>
-  </div>-->
+
+      <!--- Toggling features for the layer filters -->
         <h4>Stations</h4>
         <div id="mainmenu"></div>
         <br>
@@ -68,6 +61,10 @@
         <div id="mapplaces"></div>
         <br>
         <br>
+        <div id='legend' class='legend'></div>
+        <br>
+
+
         <p>Designed and built by Cheng, Kelwin, and Skylar</p>
 
 
@@ -80,6 +77,7 @@
   </body>
   <!--- End of HTML body section -->
   <!--- Start of JavaScript section -->
+
   <script type="text/javascript">
     // Load my mapbox map style using my map access code
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3BhdGlhbGcyIiwiYSI6ImNrMW9jcWM2ZDBqaG0zb25xN2JpdHBrYmUifQ.p8XUepeFG18AhKTDgC8Vow';
@@ -89,12 +87,14 @@
       center: [144.96, -37.8157],
       zoom: 14
     });
+
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl
     }));
     map.on('load', function() {
 
+  // Adding places of interest on the map
 	map.loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Map_Icon_-_Attractions.png/256px-Map_Icon_-_Attractions.png', function(error, image) {
 		if (error) throw error;
 		map.addImage('cameraicon', image);
@@ -175,6 +175,7 @@
 		});
 	});
 
+  // Centering a place of interest after clicking
 	map.on('click', 'Places of Interests', function(e) {
         map.flyTo({
           center: e.features[0].geometry.coordinates
@@ -192,6 +193,7 @@
 	closeOnClick: false
 	});
 
+  // Hover tooltip for Places of Interest
 	map.on('mouseenter', 'Places of Interests', function(e) {
 	// Change the cursor style as a UI indicator.
 	map.getCanvas().style.cursor = 'pointer';
@@ -213,6 +215,7 @@
 	.addTo(map);
 	});
 
+  // Deactivate tooltip on mouseleave
 	map.on('mouseleave', 'Places of Interests', function() {
 	map.getCanvas().style.cursor = '';
 	popupPlacesOfInterests.remove();
@@ -220,7 +223,7 @@
 
 
 
-
+      // Adding layer for bus routes
       map.addSource('busroutes', {
         type: 'vector',
         url: 'mapbox://spatialg2.5wovznyh'
@@ -240,6 +243,8 @@
           'line-width': 1
         }
       });
+
+      // Adding layer for train routes
       map.addSource('trainroutes', {
         type: 'vector',
         url: 'mapbox://spatialg2.87xa3coe'
@@ -259,6 +264,8 @@
           'line-width': 1
         }
       });
+
+      // Adding layer for tram routes
       map.addSource('tramroutes', {
         type: 'vector',
         url: 'mapbox://spatialg2.359uagp2'
@@ -278,6 +285,8 @@
           'line-width': 1
         }
       });
+
+      // Adding layer for bus stops
       map.addSource('busstops', {
         type: 'vector',
         url: 'mapbox://spatialg2.bd16scyk'
@@ -297,6 +306,8 @@
         },
         'source-layer': 'SDM646347-3o5v3f'
       });
+
+
       //Display a train stop popup on hover
       var popup2 = new mapboxgl.Popup({
         closeButton: false,
@@ -376,7 +387,10 @@
         map.getCanvas().style.cursor = '';
         popup1.remove();
       });
-      //add Layer for tram stop point
+
+
+
+      // Add Layer for tram stop point
       map.addSource('tramstops', {
         type: 'vector',
         url: 'mapbox://spatialg2.3f0qkv92'
@@ -395,6 +409,8 @@
         },
         'source-layer': 'vic_tram_stops-4qlei7'
       });
+
+
       //Display a tram stop popup on hover
       var popup2 = new mapboxgl.Popup({
         closeButton: false,
@@ -546,12 +562,15 @@
 
 
 
-    var toggleableLayerIds = ['Train Stops', 'Tram Stops', 'Bus Stops'];
-    var toggleableLayerIds2 = ['Train Routes', 'Tram Routes', 'Bus Routes'];
-    var toggleableLayerIds3 = ['Hospitals','Schools','Places of Interests'];
+    // Create arrays for filtering function
+    var stopsFilter = ['Train Stops', 'Tram Stops', 'Bus Stops'];
+    var routesFilter = ['Train Routes', 'Tram Routes', 'Bus Routes'];
+    var placesFilter = ['Hospitals','Schools','Places of Interests'];
 
-    for (var i = 0; i < toggleableLayerIds.length; i++) {
-      var id = toggleableLayerIds[i];
+
+    // Filtering function for stops
+    for (var i = 0; i < stopsFilter.length; i++) {
+      var id = stopsFilter[i];
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
@@ -572,8 +591,8 @@
       var layers = document.getElementById('mainmenu');
       layers.appendChild(link);
     }
-    for (var i = 0; i < toggleableLayerIds2.length; i++) {
-      var id = toggleableLayerIds2[i];
+    for (var i = 0; i < routesFilter.length; i++) {
+      var id = routesFilter[i];
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
@@ -595,8 +614,8 @@
       layers.appendChild(link);
     }
 
-    for (var i = 0; i < toggleableLayerIds3.length; i++) {
-      var id = toggleableLayerIds3[i];
+    for (var i = 0; i < placesFilter.length; i++) {
+      var id = placesFilter[i];
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
