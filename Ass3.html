@@ -55,7 +55,7 @@
         <div id="transportStops"></div>
         <br>
         <h4>Routes</h4>
-        <div id="transportroutes"></div>
+        <div id="transportRoutes"></div>
         <br>
         <h4>Places</h4>
         <div id="mapplaces"></div>
@@ -592,7 +592,7 @@
       layers.appendChild(link);
     }
 
-
+    // Filtering for routes
     for (var i = 0; i < routesFilter.length; i++) {
       var id = routesFilter[i];
       var link = document.createElement('a');
@@ -612,10 +612,11 @@
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-      var layers = document.getElementById('transportroutes');
+      var layers = document.getElementById('transportRoutes');
       layers.appendChild(link);
     }
 
+    // Filtering for places
     for (var i = 0; i < placesFilter.length; i++) {
       var id = placesFilter[i];
       var link = document.createElement('a');

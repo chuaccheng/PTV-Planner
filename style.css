@@ -10,10 +10,7 @@
   bottom: 0;
   width: 100%;
 }
-body {
-        margin: 0;
-        padding: 0;
-      }
+
 
 /* Main container for controls */
 .mainmenu {
@@ -68,9 +65,9 @@ text-decoration: none;
 color: #2dc4b2;
 }
 
-/* slight padding for the radio button menu */
 
 
+/* Styling the stops filter */
 #transportStops {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
@@ -111,14 +108,16 @@ color: #ffffff;
 background: #3074a4;
 }
 
-#transportroutes {
+
+/* Styling the routes filter */
+#transportRoutes {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
 padding-top: 10px;
 padding-bottom: 10px;
 }
 
-#transportroutes a {
+#transportRoutes a {
 border: 1px solid rgba(0,0,0,0.4);
 border-radius: 3px;
 font-size: 13px;
@@ -133,25 +132,26 @@ margin-left: 0px;
 margin-right: 10px;
 }
 
-#transportroutes a:last-child {
+#transportRoutes a:last-child {
 
 }
 
-#transportroutes a:hover {
+#transportRoutes a:hover {
 background-color: #f8f8f8;
 color: #404040;
 }
 
-#transportroutes a.active {
+#transportRoutes a.active {
 background-color: #3887be;
 color: #ffffff;
 }
 
-#transportroutes a.active:hover {
+#transportRoutes a.active:hover {
 background: #3074a4;
 
 }
 
+/* Styling the places filter */
 #mapplaces {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
@@ -192,79 +192,11 @@ color: #ffffff;
 #mapplaces a.active:hover {
 background: #3074a4;
 
-.myChartContainer{
-
-	color:white !important;
-
-
-}
-.Chart{
-	display: block !important;
-    position: absolute;
-    height: 200px !important;
-    width: 400px !important;
-	margin-left: 870px !important;
-	margin-top: 10px !important;
-	background-color:white !important;
-}
-
-/* sets the specifics for the status text */
-
-.crash-severity span {
-  margin-left: 5px;
-  display: inline-block;
-  font: 12px Arial, sans-serif;
-}
 
 /* sets the specifics for the building height text */
 
-.crash-casualty span {
-  margin: 3px;
+.transport-mode span {
+  margin: 5px;
   display: inline-block;
   vertical-align: middle;
-  font: 12px Arial, sans-serif;
 }
-
-
-#filterStations {
-
-    position: absolute;
-    z-index: 1;
-    bottom: 20px;
-    left: 25px;
-    border-radius: 3px;
-    font-family: 'Open Sans', sans-serif;
-}
-
-#filterStations a {
-	font-size: 13px;
-	color: #404040;
-	display: inline;
-	margin: 12.5px;
-	padding: 0;
-	padding: 10px;
-	text-decoration: none;
-	width: 120px;
-	text-align: center;
-    background-color:#f0f9e8;
-}
-
-#filterStations a:last-child {
-border: none;
-}
-
-#filterStations a:hover {
-background-color: #f8f8f8;
-color: black;
-}
-
-#filterStations a.active {
-background-color: #bae4bc;
-color: black;
-}
-
-#filterStations a.active:hover {
-background:#f0f0f0;
-}
-
-/* slight padding for the radio button menu */
