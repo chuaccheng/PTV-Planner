@@ -15,9 +15,7 @@ body {
         padding: 0;
       }
 
-
-
-
+/* Main container for controls */
 .mainmenu {
   position: absolute;
   width: 320px;
@@ -73,14 +71,14 @@ color: #2dc4b2;
 /* slight padding for the radio button menu */
 
 
-#mainmenu {
+#transportStops {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
 padding-top: 10px;
 padding-bottom: 10px;
 }
 
-#mainmenu a {
+#transportStops a {
 border: 1px solid rgba(0,0,0,0.4);
 border-radius: 3px;
 font-size: 13px;
@@ -95,21 +93,21 @@ margin-left: 0px;
 margin-right: 10px;
 }
 
-#mainmenu a:last-child {
+#transportStops a:last-child {
 
 }
 
-#mainmenu a:hover {
+#transportStops a:hover {
 background-color: #f8f8f8;
 color: #404040;
 }
 
-#mainmenu a.active {
+#transportStops a.active {
 background-color: #3887be;
 color: #ffffff;
 }
 
-#mainmenu a.active:hover {
+#transportStops a.active:hover {
 background: #3074a4;
 }
 
