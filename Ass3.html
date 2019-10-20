@@ -42,7 +42,7 @@
     <div id='map'></div>
     <!--- Legend for the map, containing different filters and information  -->
     <div id='legend' class='legend'>
-      <h1>RoutePlanning: nearest Trams, Trains, or Buses?</h1>
+      <h1>PTV Planner: nearest Trams, Trains, and Buses</h1>
       <h2>Analysing accessibility of public transport in Melbourne.</h2>
       <p>Data: Data sources here</p>
       <p>Click on the boxes to toggle on and off layers.</p>
@@ -69,6 +69,9 @@
         <br>
         <br>
         <p>Designed and built by Cheng, Kelwin, and Skylar</p>
+
+
+
 
       </div>
     </div>
@@ -545,7 +548,7 @@
 
     var toggleableLayerIds = ['Train Stops', 'Tram Stops', 'Bus Stops'];
     var toggleableLayerIds2 = ['Train Routes', 'Tram Routes', 'Bus Routes'];
-    var toggleableLayerIds3 = ['Hospitals','Schools','Places of Interests']
+    var toggleableLayerIds3 = ['Hospitals','Schools','Places of Interests'];
 
     for (var i = 0; i < toggleableLayerIds.length; i++) {
       var id = toggleableLayerIds[i];
@@ -615,7 +618,24 @@
       layers.appendChild(link);
     }
 
-
+    var modes = ['Train', 'Tram', 'Bus'];
+    var circleColors = ['#0072CE','#78BE20','#FF8200'];
+    for (i = 0; i < modes.length; i++) {
+        var mode = modes[i];
+        var circleColor = circleColors[i];
+        var item = document.createElement('div');
+        item.className = 'crash-severity';
+        var key = document.createElement('span');
+        key.className = 'legend-circle';
+        key.style.backgroundColor = circleColor;
+        key.style.width = '12px';
+        key.style.height = '12px';
+        var value = document.createElement('span');
+        value.innerHTML = mode;
+        item.appendChild(key);
+        item.appendChild(value);
+        legend.appendChild(item);
+      }
 
   </script>
 
