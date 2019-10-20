@@ -68,37 +68,7 @@
         <div id="menu4"></div>
         <br>
         <br>
-        <!--- Second filter: Toggle between alcohol related, non-alcohol related, or both --
-   <div class='row' id='filter2'>
-  <h4>Routes</h4>
-    <input id='all2' type='radio' name='ktoggle' value='all2' checked='checked'>
-    <label for='all2'>All</label>
-    <br>
-    <input id='yesAlcohol' type='radio' name='ktoggle' value='yesAlcohol'>
-    <label for='yesAlcohol'>Tram Routes</label>
-    <br>
-    <input id='noAlcohol' type='radio' name='ktoggle' value='noAlcohol'>
-    <label for='noAlcohol'>Train Routes</label>
-    <br>
-        <input id='noAlcohol' type='radio' name='ktoggle' value='noAlcohol'>
-    <label for='noAlcohol'>Bike Routes</label>
-    <br><br>
-  </div>
-<! --- Third filter: Toggle between whether young drivers are involved or not, or all accidents -->
-        <!--- <div class='row' id='filter3'>
-          <h4>Activity</h4>
-          <input id='all3' type='radio' name='btoggle' value='all3' checked='checked'>
-          <label for='all3'>All</label>
-          <input id='yesYouth' type='radio' name='btoggle' value='yesYouth'>
-          <label for='yesYouth'>Pedestrians</label>
-          <input id='noYouth' type='radio' name='btoggle' value='noYouth'>
-          <label for='noYouth'>Cyclists</label>
-          <br><br>
-        </div>
-      </div>
-    </div>
-    <br><br>
-    -->
+
       </div>
     </div>
 
@@ -134,7 +104,7 @@
 				"features": [{
 					"type": "Feature",
 					"properties": {
-					  description: "<strong><a href=\"https://www.google.com/destination?q=coordinates+CBD&output=search&dest_mid=/m/0262nms&sa=X&ved=2ahUKEwjNyZTM7KDlAhXSgeYKHcM7AMwQri4wHnoECBIQHg#dest_mid=/m/0262nms&tcfs=EhEKCi9tLzAyNjJubXMSA0NCRA\" target=\"_blank\">CBD</a></strong>"
+					  description: "CBD"
 					},
 					"geometry": {
 					  "type": "Point",
@@ -144,7 +114,7 @@
 				  {
 					"type": "Feature",
 					"properties": {
-					  description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">Flinders Street Railway Station</a></strong>"
+					  description: "Flinders Street Railway Station"
 					},
 					"geometry": {
 					  "type": "Point",
@@ -154,7 +124,7 @@
 				  {
 					"type": "Feature",
 					"properties": {
-					  description: "<strong><a href=\"https://www.melbourneaquarium.com.au/?utm_source=gmb&utm_medium=organic&utm_campaign=yext&utm_content=2\" target=\"_blank\">SEA LIFE Melbourne Aquarium</a></strong>"
+					  description: "SEA LIFE Melbourne Aquarium"
 					},
 					"geometry": {
 					  "type": "Point",
@@ -164,7 +134,7 @@
 				  {
 					"type": "Feature",
 					"properties": {
-					  description: "<strong><a href=\"https://www.rbg.vic.gov.au\" target=\"_blank\">Royal Botanic Gardens</a></strong>"
+					  description: "Royal Botanic Gardens"
 					},
 					"geometry": {
 					  "type": "Point",
@@ -174,7 +144,7 @@
 				  {
 					"type": "Feature",
 					"properties": {
-					  description: "<strong><a href=\"https://fedsquare.com\" target=\"_blank\">Federation Square</a></strong>"
+					  description: "Federation Square"
 					},
 					"geometry": {
 					  "type": "Point",
@@ -184,7 +154,7 @@
 				  {
 					"type": "Feature",
 					"properties": {
-					  description: "<strong><a href=\"http://www.truckeroodc.com/www/\" target=\"_blank\">The Queen Victoria Market</a></strong>"
+					description: "The Queen Victoria Market"
 					},
 					"geometry": {
 					  "type": "Point",
@@ -201,30 +171,51 @@
 		});
 	});
 
-
-
-      // Center the map on the coordinates of any clicked symbol from the 'Symbols' layer.
-      map.on('click', 'Places of Interests', function(e) {
+	map.on('click', 'Places of Interests', function(e) {
         map.flyTo({
           center: e.features[0].geometry.coordinates
         });
-      });
-      // Change the cursor to a pointer when the it enters a feature in the 'Symbols' layer.
-      map.on('mouseenter', 'Places of Interests', function() {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      // Change it back to a pointer when it leaves.
-      map.on('mouseleave', 'Places of Interests', function() {
-        map.getCanvas().style.cursor = '';
-      });
-      // Add popup for the 'Symbols' layer.
-      map.on('click', 'Places of Interests', function(e) {
-        new mapboxgl.Popup()
-          .setLngLat(e.lngLat)
-          .setHTML("<b>" + e.features[0].properties.title)
-          .setHTML("<b>" + e.features[0].properties.description)
-          .addTo(map);
-      });
+    });
+
+	//Display a Places of Interests popup on hover
+	var popupPlacesOfInterests = new mapboxgl.Popup({
+	closeButton: false,
+	closeOnClick: false
+	});
+
+	var popupPlacesOfInterests = new mapboxgl.Popup({
+	closeButton: false,
+	closeOnClick: false
+	});
+
+	map.on('mouseenter', 'Places of Interests', function(e) {
+	// Change the cursor style as a UI indicator.
+	map.getCanvas().style.cursor = 'pointer';
+
+	var coordinates = e.features[0].geometry.coordinates.slice();
+	var description = e.features[0].properties.description;
+
+	// Ensure that if the map is zoomed out such that multiple
+	// copies of the feature are visible, the popup appears
+	// over the copy being pointed to.
+	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+	coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+	}
+
+	// Populate the popup and set its coordinates
+	// based on the feature found.
+	popupPlacesOfInterests.setLngLat(coordinates)
+	.setHTML(description)
+	.addTo(map);
+	});
+
+	map.on('mouseleave', 'Places of Interests', function() {
+	map.getCanvas().style.cursor = '';
+	popupPlacesOfInterests.remove();
+	});
+
+
+
 
       map.addSource('busroutes', {
         type: 'vector',
@@ -430,6 +421,8 @@
         popup2.remove();
       });
 
+
+	  //add Layer for schools location stop point
       map.addSource('schools', {
         type: 'vector',
         url: 'mapbox://spatialg2.0qbxjien'
@@ -448,46 +441,25 @@
         'source-layer': 'mygeodata-6i3onw'
         });
       });
-
-
-
-      //add Layer for hospital location stop point
-      map.addSource('hospitals', {
-        type: 'vector',
-        url: 'mapbox://spatialg2.5bbg9qab'
+	  // Center the map on the coordinates of clicking school
+      map.on('click', 'Schools', function(e) {
+        map.flyTo({
+          center: e.features[0].geometry.coordinates
+        });
       });
-
-		map.loadImage('https://upload.wikimedia.org/wikipedia/commons/1/1b/Map_marker_icon_%E2%80%93_Nicolas_Mollet_%E2%80%93_Hospital_%E2%80%93_Health_%26_Education_%E2%80%93_Dark.png', function(error, image) {
-			if (error) throw error;
-			map.addImage('cat', image);
-			map.addLayer({
-			'id': 'Hospitals',
-			'type': 'symbol',
-			'source': 'hospitals',
-			"layout": {
-			"icon-image": "cat",
-			"icon-size": 0.8
-			},
-			'source-layer': 'victoria_hospitals-8dgbbt'
-			});
-		});
-
-
-
-      //Display a tram stop popup on hover
-      var popup2 = new mapboxgl.Popup({
+	  //Display a schools popup on hover
+      var popupschool = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false
       });
-
-      map.on('mouseenter', 'Hospitals', function(e) {
+      map.on('mouseenter', 'Schools', function(e) {
         var trainInfo = map.queryRenderedFeatures(i.point, {
-          layers: ['victoria_hospitals-8dgbbt']
+          layers: ['mygeodata-6i3onw']
         });
         // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = 'pointer';
         var coordinates = e.features[0].geometry.coordinates.slice();
-        var hospitalName = e.features[0].properties.Hospital_name;
+        var schoolName = e.features[0].properties.School_Nam;
         // Ensure that if the map is zoomed out such that multiple
         // copies of the feature are visible, the popup appears
         // over the copy being pointed to.
@@ -496,19 +468,80 @@
         }
         // Populate the popup and set its coordinates
         // based on the feature found.
-        popup2.setLngLat(coordinates)
+        popupschool.setLngLat(coordinates)
+          .setHTML(schoolName)
+          .addTo(map);
+      });
+      map.on('mouseleave', 'Schools', function() {
+        map.getCanvas().style.cursor = '';
+        popupschool.remove();
+      });
+
+
+
+      //add Layer for hospital location stop point
+      map.addSource('hospitals', {
+        type: 'vector',
+        url: 'mapbox://spatialg2.4p84vq4q'
+      });
+
+		map.loadImage('https://upload.wikimedia.org/wikipedia/commons/1/1b/Map_marker_icon_%E2%80%93_Nicolas_Mollet_%E2%80%93_Hospital_%E2%80%93_Health_%26_Education_%E2%80%93_Dark.png', function(error, image) {
+			if (error) throw error;
+			map.addImage('hospitals', image);
+			map.addLayer({
+			'id': 'Hospitals',
+			'type': 'symbol',
+			'source': 'hospitals',
+			"layout": {
+			"icon-image": "hospitals",
+			"icon-size": 0.8
+			},
+			'source-layer': 'Hospital_Locations-dfx1o9'
+			});
+		});
+
+	 // Center the map on the coordinates of clicking hospitals
+      map.on('click', 'Hospitals', function(e) {
+        map.flyTo({
+          center: e.features[0].geometry.coordinates
+        });
+      });
+
+      //Display a hospitals popup on hover
+	   //Display a schools popup on hover
+      var popuphospitals = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+      map.on('mouseenter', 'Hospitals', function(e) {
+        var trainInfo = map.queryRenderedFeatures(i.point, {
+          layers: ['Hospital_Locations-dfx1o9']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var hospitalName = e.features[0].properties.﻿LabelName;
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popuphospitals.setLngLat(coordinates)
           .setHTML(hospitalName)
           .addTo(map);
       });
       map.on('mouseleave', 'Hospitals', function() {
         map.getCanvas().style.cursor = '';
-        popup2.remove();
+        popuphospitals.remove();
       });
 
-
-
-
     });
+
+
+
     var toggleableLayerIds = ['Train Stops', 'Tram Stops', 'Bus Stops'];
     var toggleableLayerIds2 = ['Train Routes', 'Tram Routes', 'Bus Routes'];
     var toggleableLayerIds3 = ['Hospitals','Schools','Places of Interests']
@@ -580,84 +613,7 @@
       var layers = document.getElementById('menu4');
       layers.appendChild(link);
     }
-    /*
-    for (var i = 0; i < toggleableLayerIds.length; i++) {
-      var id = toggleableLayerIds[i];
-      var link = document.createElement('input');
-       link.setAttribute("type", "radio");
-           link.setAttribute("name", "toggleStationsRow");
-           link.setAttribute("value", "weekend");
-           link.setAttribute("id","weekend");
-       link.setAttribute("checked","checked");
-      link.onclick = function (e) {
-        var clickedLayer = this.textContent;
-        e.preventDefault();
-        e.stopPropagation();
-        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-        if (visibility === 'visible') {
-        //if the button is not active set visibility to none
-          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-          this.className = '';
-        } else {
-        //if the button is active set visibility to visible
-          this.className = 'active';
-          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        }
-      };
-      var layers = document.getElementById('filterStations');
-      layers.appendChild(link);
-    }
-    */
-    let myChart = document.getElementById('myChart').getContext('2d');
-    // Global Options
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 28;
-    Chart.defaults.global.defaultFontColor = '#777';
-    let massPopChart1 = new Chart(myChart, {
-      type: 'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-      data: {
-        datasets: [{
-            label: '% timetable delivered',
-            data: [99.5, 99.3, 98.5, 99.0, 98.2, 99.4, 99.5],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.6)',
-            ],
-            borderWidth: 1,
-            borderColor: '#777',
-            hoverBorderWidth: 3,
-            hoverBorderColor: '#000',
-            type: 'line'
-          },
-          {
-            label: '% services on-time at destination',
-            data: [95.5, 91.1, 86.3, 92.2, 87.8, 94.1, 94.5],
-            backgroundColor: [
-              'rgba(54, 162, 235, 0.6)',
-            ],
-            borderWidth: 1,
-            borderColor: '#777',
-            hoverBorderWidth: 3,
-            hoverBorderColor: '#000',
-            type: 'line'
-          }
-        ],
-        labels: [' 7 October', ' 8 October', ' 9 October', ' 10 October', ' 11 October', ' 12 October', ' 13 October']
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'network performance',
-          fontSize: 25
-        },
-        legend: {
-          display: true,
-          position: 'bottom',
-          labels: {
-            fontColor: '#000'
-          }
-        }
-      }
-    });
+
 
   </script>
 
