@@ -40,15 +40,10 @@ display: inline-block;
 margin-right: 10px;
 }
 
-/* sets the specifics for the status text */
-.crash-severity span {
-margin-left: 5px;
-display: inline-block;
-font: 12px Arial, sans-serif;
-}
+
 
 /* sets the specifics for the building height text */
-.crash-casualty span {
+.transport-mode span {
 margin: 3px;
 display: inline-block;
 vertical-align: middle;
@@ -62,18 +57,18 @@ color: #2dc4b2;
 }
 
 /* slight padding for the radio button menu */
-.menu3 {
+.mainmenu {
 padding-bottom: 10px;
 }
 
-#menu {
+#mainmenu {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
 padding-top: 10px;
 padding-bottom: 10px;
 }
 
-#menu a {
+#mainmenu a {
 border: 1px solid rgba(0,0,0,0.4);
 border-radius: 3px;
 font-size: 13px;
@@ -88,32 +83,32 @@ margin-left: 0px;
 margin-right: 10px;
 }
 
-#menu a:last-child {
+#mainmenu a:last-child {
 
 }
 
-#menu a:hover {
+#mainmenu a:hover {
 background-color: #f8f8f8;
 color: #404040;
 }
 
-#menu a.active {
+#mainmenu a.active {
 background-color: #3887be;
 color: #ffffff;
 }
 
-#menu a.active:hover {
+#mainmenu a.active:hover {
 background: #3074a4;
 }
 
-#menu2 {
+#transportroutes {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
 padding-top: 10px;
 padding-bottom: 10px;
 }
 
-#menu2 a {
+#transportroutes a {
 border: 1px solid rgba(0,0,0,0.4);
 border-radius: 3px;
 font-size: 13px;
@@ -128,33 +123,33 @@ margin-left: 0px;
 margin-right: 10px;
 }
 
-#menu2 a:last-child {
+#transportroutes a:last-child {
 
 }
 
-#menu2 a:hover {
+#transportroutes a:hover {
 background-color: #f8f8f8;
 color: #404040;
 }
 
-#menu2 a.active {
+#transportroutes a.active {
 background-color: #3887be;
 color: #ffffff;
 }
 
-#menu2 a.active:hover {
+#transportroutes a.active:hover {
 background: #3074a4;
 
 }
 
-#menu4 {
+#mapplaces {
 background: #fff;
 font-family: 'Open Sans', sans-serif;
 padding-top: 10px;
 padding-bottom: 10px;
 }
 
-#menu4 a {
+#mapplaces a {
 border: 1px solid rgba(0,0,0,0.4);
 border-radius: 3px;
 font-size: 13px;
@@ -170,21 +165,21 @@ margin-left: 0px;
 margin-right: 10px;
 }
 
-#menu4 a:last-child {
+#mapplaces a:last-child {
 
 }
 
-#menu4 a:hover {
+#mapplaces a:hover {
 background-color: #f8f8f8;
 color: #404040;
 }
 
-#menu4 a.active {
+#mapplaces a.active {
 background-color: #3887be;
 color: #ffffff;
 }
 
-#menu4 a.active:hover {
+#mapplaces a.active:hover {
 background: #3074a4;
 
 .myChartContainer{

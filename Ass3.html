@@ -46,7 +46,7 @@
       <h2>Analysing accessibility of public transport in Melbourne.</h2>
       <p>Data: Data sources here</p>
       <p>Click on the boxes to toggle on and off layers.</p>
-      <div class="menu3">
+      <div class="mainmenu">
         <!--- First filter: Toggle between weekday, weekend, or both
  <div class='StationsRow' id='filters'>
   <h4>Stations</h4>
@@ -59,13 +59,13 @@
     <br><br>
   </div>-->
         <h4>Stations</h4>
-        <div id="menu"></div>
+        <div id="mainmenu"></div>
         <br>
         <h4>Routes</h4>
-        <div id="menu2"></div>
+        <div id="transportroutes"></div>
         <br>
         <h4>Places</h4>
-        <div id="menu4"></div>
+        <div id="mapplaces"></div>
         <br>
         <br>
         <p>Designed and built by Cheng, Kelwin, and Skylar</p>
@@ -569,7 +569,7 @@
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-      var layers = document.getElementById('menu');
+      var layers = document.getElementById('mainmenu');
       layers.appendChild(link);
     }
     for (var i = 0; i < toggleableLayerIds2.length; i++) {
@@ -591,7 +591,7 @@
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-      var layers = document.getElementById('menu2');
+      var layers = document.getElementById('transportroutes');
       layers.appendChild(link);
     }
 
@@ -614,7 +614,7 @@
           map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
       };
-      var layers = document.getElementById('menu4');
+      var layers = document.getElementById('mapplaces');
       layers.appendChild(link);
     }
 
@@ -636,6 +636,11 @@
         item.appendChild(value);
         legend.appendChild(item);
       }
+
+      // Add map controls (pan and zoom)
+map.addControl(new mapboxgl.NavigationControl());
+
+
 
   </script>
 
